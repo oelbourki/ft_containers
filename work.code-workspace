@@ -1,0 +1,72 @@
+{
+	"folders": [
+		{
+			"path": "/Users/oel-bour/Desktop/ft_serve_push copy"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"iterator": "cpp",
+			"vector": "cpp",
+			"__bit_reference": "cpp",
+			"__hash_table": "cpp",
+			"__split_buffer": "cpp",
+			"array": "cpp",
+			"bitset": "cpp",
+			"string_view": "cpp",
+			"initializer_list": "cpp",
+			"list": "cpp",
+			"string": "cpp",
+			"unordered_map": "cpp",
+			"hashtable": "cpp",
+			"memory": "cpp",
+			"memory_resource": "cpp",
+			"sstream": "cpp",
+			"algorithm": "cpp",
+			"*.tcc": "cpp",
+			"__config": "cpp",
+			"__debug": "cpp",
+			"__functional_base": "cpp",
+			"__locale": "cpp",
+			"__mutex_base": "cpp",
+			"__nullptr": "cpp",
+			"__string": "cpp",
+			"__threading_support": "cpp",
+			"__tuple": "cpp",
+			"atomic": "cpp",
+			"cctype": "cpp",
+			"chrono": "cpp",
+			"clocale": "cpp",
+			"cmath": "cpp",
+			"cstdarg": "cpp",
+			"cstddef": "cpp",
+			"cstdint": "cpp",
+			"cstdio": "cpp",
+			"cstdlib": "cpp",
+			"cstring": "cpp",
+			"ctime": "cpp",
+			"cwchar": "cpp",
+			"cwctype": "cpp",
+			"exception": "cpp",
+			"iomanip": "cpp",
+			"ios": "cpp",
+			"iosfwd": "cpp",
+			"iostream": "cpp",
+			"istream": "cpp",
+			"limits": "cpp",
+			"locale": "cpp",
+			"mutex": "cpp",
+			"new": "cpp",
+			"ostream": "cpp",
+			"ratio": "cpp",
+			"stdexcept": "cpp",
+			"streambuf": "cpp",
+			"system_error": "cpp",
+			"tuple": "cpp",
+			"typeinfo": "cpp"
+		}
+	}
+}
