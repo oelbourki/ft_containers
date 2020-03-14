@@ -24,12 +24,6 @@ namespace ft
 		class const_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
 		{
 		};
-		class reverse_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
-		{
-		};
-		class const_reverse_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
-		{
-		};
 		class iterator : public std::iterator<std::bidirectional_iterator_tag, T>
 		{
 			friend class list<T>;
@@ -102,7 +96,7 @@ namespace ft
 		iterator erase (iterator position);//done
 		iterator erase (iterator first, iterator last);//done
 		reference front(){return *begin();};//done
-		const_reference front() const{return *begin()};//done
+		const_reference front() const{return *begin();};//done
 		iterator insert (iterator position, const value_type& val);//single element (1)//done
 		void insert (iterator position, size_type n, const value_type& val);//fill (2)//done
 		template <class InputIterator>
@@ -116,13 +110,13 @@ namespace ft
 		void pop_front();
 		void push_back (const value_type& val);
 		void push_front (const value_type& val);
-		reverse_iterator rbegin(){return reverse_iterator(end())};
-		const_reverse_iterator rbegin() const{return const_reverse_iterator(end())};
+		reverse_iterator rbegin(){return reverse_iterator(end());};//done
+		const_reverse_iterator rbegin() const{return const_reverse_iterator(end());};//done
 		void remove (const value_type& val);
 		template <class Predicate>
 			void remove_if (Predicate pred);
-		reverse_iterator rend();
-		const_reverse_iterator rend() const;
+		reverse_iterator rend(){return const_reverse_iterator(begin());};//done
+		const_reverse_iterator rend() const{return const_reverse_iterator(begin());};//done
 		void resize (size_type n, value_type val = value_type());
 		void reverse();
 		size_type size() const{return this->length;};
@@ -190,7 +184,7 @@ namespace ft
 				insert(position,*(first++));			
 		}
 	template<class T>
-	list<T>::iterator list<T>::erase (iterator position)
+	typename list<T>::iterator list<T>::erase (iterator position)
 	{
 		position.z->prev->next = position.z->next;
 		position.z->next->prev = position.z->prev;
@@ -198,7 +192,7 @@ namespace ft
 		--length;
 	}
 	template<class T>
-	list<T>::iterator list<T>::erase (iterator first, iterator last)
+	typename list<T>::iterator list<T>::erase (iterator first, iterator last)
 	{
 		while (first != last)
 		{
