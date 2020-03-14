@@ -91,22 +91,22 @@ namespace ft
 		template <class InputIterator>
 			void assign (InputIterator first, InputIterator last);//range
 		void assign (size_type n, const value_type& val);//fill
-		iterator back() {return node;};
-		const_iterator back() const{return node;};
-		iterator begin(){return iterator(node->next);};
-		const_iterator begin() const{return node->next;};
+		iterator back() {return node;};//done
+		const_iterator back() const{return node;};//done
+		iterator begin(){return iterator(node->next);};//done
+		const_iterator begin() const{return node->next;};//done
 		void clear();
-		bool empty() const {return this->length == 0;};
-		iterator end() {return iterator(node);};
-		const_iterator end() const{return iterator(node);};
-		iterator erase (iterator position);
-		iterator erase (iterator first, iterator last);
-		reference front(){return node->next->data;};
-		const_reference front() const{return node->next->data;};
-		iterator insert (iterator position, const value_type& val);//single element (1)
-		void insert (iterator position, size_type n, const value_type& val);//fill (2)
+		bool empty() const {return this->length == 0;};//done
+		iterator end() {return node;};//done
+		const_iterator end() const{return node;};//done
+		iterator erase (iterator position);//done
+		iterator erase (iterator first, iterator last);//done
+		reference front(){return *begin();};//done
+		const_reference front() const{return *begin()};//done
+		iterator insert (iterator position, const value_type& val);//single element (1)//done
+		void insert (iterator position, size_type n, const value_type& val);//fill (2)//done
 		template <class InputIterator>
-			void insert (iterator position, InputIterator first, InputIterator last);//range (3)
+			void insert (iterator position, InputIterator first, InputIterator last);//range (3)//done
 		size_type max_size() const{return this->length;};
 		void merge (list& x);
 		template <class Compare>
@@ -116,8 +116,8 @@ namespace ft
 		void pop_front();
 		void push_back (const value_type& val);
 		void push_front (const value_type& val);
-		reverse_iterator rbegin();
-		const_reverse_iterator rbegin() const;
+		reverse_iterator rbegin(){return reverse_iterator(end())};
+		const_reverse_iterator rbegin() const{return const_reverse_iterator(end())};
 		void remove (const value_type& val);
 		template <class Predicate>
 			void remove_if (Predicate pred);
