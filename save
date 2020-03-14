@@ -50,55 +50,34 @@ namespace ft
 			bool 			operator<=(const iterator &v){return this->z <= v.z;}
 			iterator 		&operator++(){z = z->next;;return *this;}
 			iterator 		&operator--(){z = z->prev;return *this;}
-			iterator 		&operator--(int){iterator tmp = *this;(--this);return *this;}
+			iterator 		&operator--(int){iterator tmp = *this;--(*this);return *this;}
 			iterator		operator++(int) {iterator copy = *this;++(*this);return copy;}
-			reference		operator*(){return z->data;};
+			reference		operator*(){return z->data;}
 		};
-		typedef std::reverse_iterator<iterator>
-			reverse_iterator;
 		explicit list (){
-			length = 0;
 			node = creat_node();
 			node->next = node;
 			node->prev = node;
 		}//default
 		explicit list (size_type n, const value_type& val = value_type()){
-			length = 0;
-			node = creat_node();
-			node->next = node;
-			node->prev = node;
-			insert(begin(),n,val);
+			
 		}/// fill
 		template <class InputIterator>
-		list (InputIterator first, InputIterator last)
-		{
-			length = 0;
-			node = creat_node();
-			node->next = node;
-			node->prev = node;
-			insert(begin(),first,last);
-		}// range
-		list (const list& x)
-		{
-			length = 0;
-			node = creat_node();
-			node->next = node;
-			node->prev = node;
-			insert(begin(),x.first,x.last);
-		}//copy
+		list (InputIterator first, InputIterator last);// range
+		list (const list& x);//copy
 		~list(){std::cout << "";};
 		/*--------------------------------*/
 		template <class InputIterator>
 			void assign (InputIterator first, InputIterator last);//range
 		void assign (size_type n, const value_type& val);//fill
-		iterator back() {return node;};
-		const_iterator back() const{return node;};
+		iterator back() {return node->prev;};
+		const_iterator back() const{return node->prev;};
 		iterator begin(){return iterator(node->next);};
 		const_iterator begin() const{return node->next;};
 		void clear();
 		bool empty() const {return this->length == 0;};
 		iterator end() {return iterator(node);};
-		const_iterator end() const{return iterator(node);};
+		const_iterator end() const{return iterator(node->prev);};
 		iterator erase (iterator position);
 		iterator erase (iterator first, iterator last);
 		reference front(){return node->next->data;};
@@ -167,43 +146,16 @@ namespace ft
 	typename list<T>::iterator list<T>::insert(iterator position, const value_type& val)
 	{
 		Node* tmp = creat_node();
-		tmp->data = val;
+		tmp->data = 5;
 		// new (&(tmp->data)) T(val);
 		tmp->next = position.z;
 		tmp->prev = (position.z)->prev;
 		(position.z)->prev->next = tmp;
 		(position.z)->prev = tmp;
 		++length;
-		return tmp;
+		return iterator(tmp);
 	}
-	template<class T>
-	void list<T>::insert (iterator position, size_type n, const value_type& val)
-	{
-		while (n--)
-			insert(position,val);
-	}
-	template<class T>
-	template <class InputIterator>
-		void list<T>::insert (iterator position, InputIterator first, InputIterator last)
-		{
-			while (first != last)
-				insert(position,*(first++));			
-		}
-	template<class T>
-	list<T>::iterator list<T>::erase (iterator position)
-	{
-		position.z->prev->next = position.z->next;
-		position.z->next->prev = position.z->prev;
-		// delete position.z;
-		--length;
-	}
-	template<class T>
-	list<T>::iterator list<T>::erase (iterator first, iterator last)
-	{
-		while (first != last)
-		{
-			erase(first++);
-		}
-		
-	}
+
+
+
 };
