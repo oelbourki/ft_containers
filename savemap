@@ -1,0 +1,137 @@
+#pragma once 
+
+#include <iostream>
+#include <stack>
+#include <memory>
+#include <deque>
+#include "map_list.hpp"
+namespace ft
+{
+    template < class Key,                                     // map::key_type
+            class T,                                       // map::mapped_type
+            class Compare = std::less<Key>,                     // map::key_compare
+            class Alloc = std::allocator<std::pair<const Key,T> >    // map::allocator_type
+            >
+    class map
+    {
+        // class iterator : public std::iterator<std::bidirectional_iterator_tag, T>
+        // {
+        //     friend class map<const Key,T>;
+        // };
+        // class const_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
+        // {
+        //     friend class map<const Key,T>;
+        // };
+        // typedef std::reverse_iterator<iterator>
+		// 	reverse_iterator;
+		// typedef std::reverse_iterator<const_iterator>
+		// 	const_reverse_iterator;
+        typedef std::pair<Key, T> value_type;
+        typedef Compare key_compare;
+        typedef Alloc allocator_type;
+        typedef size_t size_type;
+        typedef Key key_type;
+        typedef T mapped_type;
+
+
+        private:
+        list<value_type> n;
+        Compare cmp;
+        public:
+        typedef typename ft::list<value_type>::iterator iterator;
+		// class iterator : public std::iterator<std::bidirectional_iterator_tag, value_type>
+		// {
+		// 	friend class list<value_type>;
+		// 	private:
+		// 		typename ft::list<value_type>::Node* z;
+		// 	public:
+        //     typedef typename ft::list<value_type>::Node Node;
+		// 	typedef value_type& reference;
+		// 	typedef const value_type& const_refernce;
+		// 	typedef value_type* pointer;
+		// 	iterator(Node* init){z = init;};
+		// 	iterator(){z = NULL;}
+		// 	bool 			operator != (const iterator &v){return this->z != v.z;}
+		// 	bool 			operator== (const iterator &v){return this->z == v.z;}
+		// 	bool 			operator>(const iterator &v){return this->z > v.z;}
+		// 	bool 			operator>=(const iterator &v){return this->z >= v.z;}
+		// 	bool 			operator<(const iterator &v){return this->z < v.z;}
+		// 	bool 			operator<=(const iterator &v){return this->z <= v.z;}
+        //     iterator 		operator=(const iterator &v){return v;}
+        //     iterator 		operator+(const iterator &v){iterator tmp;tmp.z+v.z;return *this;}
+        //     iterator 		operator-(const iterator &v){iterator tmp;tmp.z-v.z;return *this;}
+        //     iterator 		operator-(int v){iterator tmp(*this);tmp.z -= v; return tmp;}
+        //     iterator 		operator+(int v){iterator tmp(*this);tmp.z += v; return tmp;}
+		// 	iterator 		&operator++(){z = z->next;;return *this;}
+		// 	iterator 		&operator--(){z = z->prev;return *this;}
+		// 	iterator 		&operator--(int){iterator tmp = *this;(--this);return *this;}
+		// 	iterator		operator++(int) {iterator copy = *this;++(*this);return copy;}
+        //     value_type		operator->() {return this->z->data;}
+		// 	// reference		operator*(){return z->data;};
+		// };
+        typedef typename ft::list<value_type>::const_iterator const_iterator;
+        typedef typename ft::list<value_type>::reverse_iterator reverse_iterator;
+        typedef typename ft::list<value_type>::const_reverse_iterator const_reverse_iterator;
+        explicit map (const key_compare& comp = key_compare(),
+              const allocator_type& alloc = allocator_type()){this->cmp = cmp;}
+        template <class InputIterator>
+        map (InputIterator first, InputIterator last,
+            const key_compare& comp = key_compare(),
+            const allocator_type& alloc = allocator_type()){
+
+                    this->n.insert(first,last);
+            }
+        map (const map& x)
+        {
+            this->n.clear();
+            this->n = x.n;
+        }
+        iterator begin() {return this->n.begin();}//done
+        // const_iterator begin() const{return this->n.begin();}//done
+        void clear(){return this->n.clear();}//done
+        size_type count (const key_type& k) const{return this->n.size();}//done
+        bool empty() const{return this->n.empty();}//done
+        iterator end(){return this->n.end();}//done
+        // const_iterator end() const{return this->n.end();}//done
+        // std::pair<const_iterator,const_iterator> equal_range (const key_type& k) const;
+        std::pair<iterator,iterator>             equal_range (const key_type& k);
+        void erase (iterator position){this->n.erase(position);}//done
+        size_type erase (const key_type& k){this->n.erase(k);}//done
+        void erase (iterator first, iterator last){this->n.erase(first,last);}//done
+        iterator find (const key_type& k)//done
+        {
+            iterator iter = ft::lower_bound(this->begin(),this->end(),k);
+            if (*iter == k)
+                return iter;
+            else 
+                return this->end();
+        }
+        // const_iterator find (const key_type& k) const;
+        std::pair<iterator,bool> insert (const value_type& val){iterator iter = insert(this->begin(),val);return *iter;}
+        iterator insert (iterator position, const value_type& val){return this->n.insert(position,val);}//done
+        template <class InputIterator>
+            void insert (InputIterator first, InputIterator last){this->n.insert(first,last);}//done
+        key_compare key_comp() const;
+        iterator lower_bound (const key_type& k);
+        // const_iterator lower_bound (const key_type& k) const;
+        size_type max_size() const{return this->n.max_size();}//done
+        map& operator= (const map& x) {*this = x; return *this;}//done
+        mapped_type& operator[] (const key_type& k)
+        {
+            iterator iter =  this->find(k);
+            if (iter == this->end())
+                return 0;
+            else 
+                return (*iter).second;
+        }
+        // reverse_iterator rbegin(){return this->n.rbegin();}//done
+        // const_reverse_iterator rbegin() const{return this->n.rbegin();}//done
+        // reverse_iterator rend(){return this->n.rend();}//done
+        // const_reverse_iterator rend() const{return this->n.rend();}//done
+        size_type size() const{return this->n.size();}//done
+        void swap (map& x){this->n.swap(x.n);}//done
+        iterator upper_bound (const key_type& k);
+        // const_iterator upper_bound (const key_type& k) const;
+    };
+
+}

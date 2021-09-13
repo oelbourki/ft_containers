@@ -90,8 +90,8 @@ namespace ft
 		template <class InputIterator>
 			void assign (InputIterator first, InputIterator last);//range//done
 		void assign (size_type n, const value_type& val);//fill/done
-		reference back() { return *(--end()); };//done
-		const_reference back() const{ return *(--end()); }//done
+		reference back() {return node->data;};//done
+		const_reference back() const{return node->data;};//done
 		iterator begin(){return node->next;};//done
 		const_iterator begin() const{return node->next;};//done
 		void clear(){erase(begin(),end());length = 0;}//done
@@ -111,8 +111,8 @@ namespace ft
 		template <class Compare>
 			void merge (list& x, Compare comp);//done
 		list& operator= (const list& x);//copy (1)//done
-		void pop_front() { erase(begin()); }
-		void pop_back() { iterator tmp = end(); erase(--tmp); }
+		void pop_back(){erase(end());}//done
+		void pop_front(){erase(begin());}//done
 		void push_back (const value_type& val){insert(end(),val);}//done
 		void push_front (const value_type& val){insert(begin(),val);}//done
 		reverse_iterator rbegin(){return reverse_iterator(end());};//done
@@ -151,14 +151,22 @@ namespace ft
 		private:
 			size_t length;
 			link_type node;
+			//  link_type free_list;
+			// link_type get_node() {
+			// link_type tmp = free_list;
+			// if (free_list != NULL) {
+			// free_list = (link_type)(free_list->next);
+			// return tmp;
+			// }
+			// return tmp;
+			// }
 			link_type creat_node()
 			{
-				link_type tmp = new Node;
-				tmp->next = tmp;
-				tmp->prev = tmp;
-				return tmp;
+				node = new Node;
+				node->next = NULL;
+				node->prev = NULL;
+				return node;
 			};
-			// value_type value_type(){return 0;}
 			void	transfer(iterator position,iterator first,iterator last)
 			{
 				(last.z)->prev->next = position.z;
@@ -184,19 +192,17 @@ namespace ft
 				
 
 	};
-	template<class T>
-	typename list<T>::iterator list<T>::insert(iterator position, const value_type& val)
-	{
-		Node* tmp = creat_node();
-		tmp->data = val;
-		new (&(tmp->data)) T(val);
+	template <class T>
+		typename list<T>::iterator list<T>::insert(iterator position, const T& x) {
+		link_type tmp = creat_node();
+		new (&(tmp->data)) T(x);
 		tmp->next = position.z;
 		tmp->prev = (position.z)->prev;
 		(position.z)->prev->next = tmp;
 		(position.z)->prev = tmp;
 		++length;
 		return tmp;
-	}
+		}
 	template<class T>
 	void list<T>::insert (iterator position, size_type n, const value_type& val)
 	{
@@ -213,16 +219,12 @@ namespace ft
 	template<class T>
 	typename list<T>::iterator list<T>::erase (iterator position)
 	{
-		link_type tmp = position.z;
 		position.z->prev->next = position.z->next;
 		position.z->next->prev = position.z->prev;
 		// position.z.~T();
-		// delete tmp;
-		// position.z->next = NULL;
-		// p->next = free_list;
-		// free_list = p;
+		// delete position.z;
 		--length;
-		return ++position;
+		return position;
 	}
 	template<class T>
 	typename list<T>::iterator list<T>::erase (iterator first, iterator last)
@@ -443,20 +445,20 @@ namespace ft
 				begin = next;
 			}
 		}
-	template<class T>
-	void list<T>::resize (size_type n, value_type val)
-	{
-		iterator f= begin();
-		iterator l = end();
-		while (f != l && n--)
-			f++;
-		if (f == l)
-		{
-			while (n--)
-				push_back(val);
-		}else if (n == 0)
-		{
-			erase(f,l);
-		}
-	}
+	// template<class T>
+	// void list<T>::resize (size_type n, value_type val = value_type())
+	// {
+	// 	iterator f= begin();
+	// 	iterator l = end();
+	// 	while (f != l && n--)
+	// 		f++;
+	// 	if (f == l)
+	// 	{
+	// 		while (n--)
+	// 			push_back(val);
+	// 	}else if (n == 0)
+	// 	{
+	// 		erase(f,l);
+	// 	}
+	// }
 };
