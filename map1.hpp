@@ -16,17 +16,27 @@ namespace ft
             >
     class map
     {
-        typedef iterator RBT<Key,V,Compare,Alloc>::iterator;
-        typedef const_iterator RBT<Key,V,Compare,Alloc>::const_iterator;
-        typedef pair<const Key, T> value_type;
+        class iterator : public std::iterator<std::bidirectional_iterator_tag, T>
+        {
+            friend class map<const Key,T>;
+        };
+        class const_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
+        {
+            friend class map<const Key,T>;
+        };
+        typedef std::reverse_iterator<iterator>
+			reverse_iterator;
+		typedef std::reverse_iterator<const_iterator>
+			const_reverse_iterator;
+        typedef ft::pair<const Key, T> value_type;
         typedef Compare key_compare;
         typedef Alloc allocator_type;
         typedef size_t size_type;
         typedef Key key_type;
         typedef T mapped_type;
         private:
-            RBT<const Key, T,Compare,Alloc> n;
-            Compare cmp;
+        avl<const Key, T,Compare> n;
+        Compare cmp;
         public:
         explicit map (const key_compare& comp = key_compare(),
               const allocator_type& alloc = allocator_type()){this->cmp = cmp;}
@@ -42,45 +52,38 @@ namespace ft
             this->clear();
             this->root = x.root;
         }
-        //iterators
-        iterator begin();
+        iterator begin();//done
         const_iterator begin() const;
-        iterator end();
+        void clear();
+        size_type count (const key_type& k) const;
+        bool empty() const;//done
+        iterator end();//done
         const_iterator end() const;
+        pair<const_iterator,const_iterator> equal_range (const key_type& k) const;
+        pair<iterator,iterator>             equal_range (const key_type& k);
+        void erase (iterator position);
+        size_type erase (const key_type& k);
+        void erase (iterator first, iterator last);
+        iterator find (const key_type& k);//done
+        const_iterator find (const key_type& k) const;
+        ft::pair<iterator,bool> insert (const value_type& val);
+        iterator insert (iterator position, const value_type& val);
+        template <class InputIterator>
+            void insert (InputIterator first, InputIterator last);
+        key_compare key_comp() const;
+        iterator lower_bound (const key_type& k);
+        const_iterator lower_bound (const key_type& k) const;
+        size_type max_size() const;
+        map& operator= (const map& x);
+        mapped_type& operator[] (const key_type& k);
         reverse_iterator rbegin();
         const_reverse_iterator rbegin() const;
         reverse_iterator rend();
         const_reverse_iterator rend() const;
-        //insertion
-         pair<iterator,bool> insert (const value_type& val);
-        iterator insert (iterator position, const value_type& val);
-        template <class InputIterator>
-            void insert (InputIterator first, InputIterator last);
-        //erase
-        void erase (iterator position);
-        size_type erase (const key_type& k);
-        void erase (iterator first, iterator last);
-        //find
-        iterator find (const key_type& k);
-        const_iterator find (const key_type& k) const;
-        //things
-        pair<const_iterator,const_iterator> equal_range (const key_type& k) const;
-        pair<iterator,iterator>             equal_range (const key_type& k);
-        key_compare key_comp() const;
-        iterator lower_bound (const key_type& k);
-        const_iterator lower_bound (const key_type& k) const;
+        size_type size() const;//done
+        void swap (map& x);
         iterator upper_bound (const key_type& k);
         const_iterator upper_bound (const key_type& k) const;
-        //others
-        void clear();
-        size_type count (const key_type& k) const;
-        bool empty() const;
-        size_type max_size() const;
-        map& operator= (const map& x);
-        mapped_type& operator[] (const key_type& k);
-        size_type size() const;
-        void swap (map& x);
-        
     };
 
 }

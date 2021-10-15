@@ -70,5 +70,8 @@
         "type_traits": "cpp",
         "typeinfo": "cpp",
         "utility": "cpp"
+    },
+    "files.watcherExclude": {
+        "**/target": true
     }
 }
