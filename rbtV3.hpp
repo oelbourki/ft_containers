@@ -31,6 +31,17 @@ class RBT
             this->doubleBlack = false;
 
         }
+        node(const node& a)
+        {
+            this->key = a.key;
+            this->value = a.value;
+            this->parent = a.parent;
+            this->right = a.right;
+            this->left = a.left;
+            this->black = a.black;
+            this->isleftchild = a.isleftchild;
+            this->doubleBlack = a.doubleBlack;
+        }
     node& operator =(const node& a)
     {
         this->key = a.key;
@@ -293,20 +304,26 @@ class RBT
         std::cout << "Erase" << std::endl;
         node *tmp = find(k,this->root);
         node* tmpM = NULL;
+         node *tmpT = NULL;
         if (tmp->left != NULL)
             tmpM = getMax(tmp->left);
         else if (tmp->left == NULL && tmp->right != NULL)
             tmpM = getMin(tmp->right);
         else 
-        {
-        if (tmp->black == true)
-            tmp->doubleBlack = true;
-            std::cout << "gomme" << std::endl;
-            printBT(tmpM);
+            {
+                tmpM = tmp;
+                // std::cout << "heree" << std::endl;
+            }
+        // else 
+        // {
+        // if (tmp->black == true)
+        //     tmp->doubleBlack = true;
+        //     // std::cout << "gomme" << std::endl;
+        //     // printBT(tmpM);
 
-            delete_node(&tmp);
-            return;
-        }
+        //     // delete_node(&tmp);
+        //     // return;
+        // }
         // print_node(tmp);
         // print_node(tmp);
         // print_node(tmpM);
@@ -314,74 +331,19 @@ class RBT
         tmp->value = tmpM->value;
         if (tmpM->black == true)
             tmpM->doubleBlack = true;
-        delete_node(&tmpM);
+        tmpT = new node(*tmpM);
+        // else
+        print_node(tmpM);
+        delete_the_node(&tmpM);
+        delete_node(&tmpT);
+        delete_the_node(&tmpT);
+        // std::cout << "tmpT" << std::endl;
+        // print_node(tmpT);
         // delete max;
         // max = NULL;
     }
     //-----------delete----------------------
-    // node*    delete_bst(node *root,const key_type& k){
-    //     if (root == NULL)
-    //         return root;
-    //     if (k < root->key)
-    //         root->left = delete_bst(root->left,k);
-    //     else if (k > root->key)
-    //         root->right = delete_bst(root->right,k);
-    //     else if (root->right == NULL && root->left == NULL)
-    //     {    
-    //         std::cout << "case 1" << std::endl;
-            
-    //         // print_node(root->parent);
-    //         // print_node(root);
-    //         delete_node(&root);
-    //         std::cout << "root1" << std::endl;
-    //         print_node(root);
-    //         std::cout << "root2" << std::endl;
-
-    //         // this->printBT(this->root);
-    //         // return root;
-    //         // std::cout << "end" << std::endl;
-    //     }
-    //     else if (root->left == NULL)
-    //     {
-    //         std::cout << "case 2" << std::endl;
-    //         node *tmp = root;
-    //         root = root->right;
-    //         // print_node(tmp);
-    //         delete_node(&tmp);
-    //         // delete tmp;
-    //     }
-    //     else if (root->right == NULL)
-    //     {
-    //         std::cout << "case 3" << std::endl;
-    //         node *tmp = root;
-    //         root = root->left;
-    //         // print_node(tmp);
-    //         delete_node(&tmp);
-    //         // delete tmp;
-    //     }
-    //     else
-    //     {
-    //         std::cout << "case 4" << std::endl;
-    //         // node* min = getMin(root->right);
-    //         // root->key = min->key;
-    //         // root->value = min->value;
-    //         // root->right = delete_bst(root->right,min->key);
-    //         node* max = getMax(root->left);
-    //         root->key = max->key;
-    //         root->value = max->value;
-    //     std::cout << "rooe left before 1" << std::endl;
-    //         print_node(root->left);
-    //         root->left = delete_bst(root->left,max->key);
-    //     std::cout << "rooe left after 1" << std::endl;
-    //         print_node(root->left);
-
-    //     }
-    //     // std::cout << "return1" << std::endl;
-    //     // print_node(root);
-    //     // std::cout << "return2" << std::endl;
-
-    //     return root;
-    // }
+   
     int     sib_black_child_black(node *root){
         std::cout << "sib_black_child_black" << std::endl;
         // print_node(root->parent->parent);
@@ -510,7 +472,6 @@ class RBT
         a = b;
         b = tmp;
     }
-    // void    ca1
     void delete_the_node(node **rt)
     {
         if (!rt || !(*rt))
@@ -522,11 +483,11 @@ class RBT
             P->right = NULL;
         delete *rt;
         *rt = NULL;
+        std::cout << "free Node" << std::endl;
     }
     void   delete_node(node **rt){
         node *root = *rt;
         std::cout << "Delete node" << std::endl;
-        // print_node()
         int cas = check_case(root);
         std::cout << "cas: " << cas << std::endl;
         if (cas == -1)
@@ -534,21 +495,8 @@ class RBT
             std::cout << "NULL" << std::endl;
             return;
         }
-        else if (cas == 1)
-        {
-            
-            node *P = (*rt)->parent;
-            if ((*rt)->isleftchild)
-                P->left = NULL;
-            else 
-                P->right = NULL;
-            delete *rt;
-            *rt = NULL;
-        }
         else if (cas == 2)
-        {
             (*rt)->doubleBlack = false;
-        }
         else if (cas == 3)
         {
             (*rt)->doubleBlack = false;
@@ -559,17 +507,6 @@ class RBT
                 P->doubleBlack = true;
             node *sib = get_sib(root);
             sib->black = false;
-            // print_node(*rt);
-            // print_node(P);
-            std::cout << "delete from here" << std::endl;
-            if ((*rt)->isleftchild)
-                P->left = NULL;
-            else 
-                P->right = NULL;
-            delete *rt;
-            *rt = NULL;
-            // exit(0);
-            printBT(this->root);
             delete_node(&P);
         }
         else if (cas == 4)
@@ -578,18 +515,11 @@ class RBT
             node *sib = get_sib(root);
             swap(P->black,sib->black);
             if (!sib->right && !sib->left)
-            {
-                delete_the_node(rt);
                 return;
-            }
             if (root->isleftchild == true)
                 leftRotate(P);
             else
                 rightRotate(P);
-            // printBT(this->root);
-            // exit(0);
-            std::cout << "in case 4" << std::endl;
-            printBT(this->root);
             delete_node(&root);
         }
         else if (cas == 5)
@@ -616,35 +546,14 @@ class RBT
             if (root->isleftchild == true)
             {
                 sib->right->black = true;
-                // delete_the_node(rt);
-                std::cout << "afterrrr" << std::endl;
                 leftRotate(P);
             }
             else
             {
-                // delete_the_node(rt);
                 sib->left->black = true;
-                // print_node(P);
-                // delete_the_node(rt);
                 rightRotate(P);
-                // exit(0);
-
             }
-            // print_node((*rt)->parent->right);
-            // (*rt)->parent->right = NULL;
-
-            // delete_the_node(rt);
-            // swap(P->black,P->right->black);
-            // if ((*rt)->isleftchild)
-            //     P->left = NULL;
-            // else 
-            //     P->right = NULL;
-            // delete *rt;
-            // *rt = NULL;
         }
-        // std::cout << "delete the node" << std::endl;
-        // print_node(*rt);
-        // delete_the_node(rt);
     }
 };
 //------------------------

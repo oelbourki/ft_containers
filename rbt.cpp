@@ -1,7 +1,15 @@
-#include "rbtV2.hpp"
+#include "rbtV3.hpp"
 #include "pair.hpp"
 
-// pass the root node of your binary tree
+// void    print(RBT<char,int> r,ft::pair<char,int> a){
+//     std::cout <<"--------------------------" <<std::endl;
+//     r.erase(a.first);
+//     std::cout <<"-----------Tree-----------" <<std::endl;
+//     r.printBT(r.get_root());
+//     std::cout <<"--------------------------" <<std::endl;
+
+// }
+// // pass the root node of your binary tree
 int main()
 {
     RBT<char,int> r;
@@ -35,6 +43,9 @@ int main()
     ft::pair<char,int> x('x',8);
     ft::pair<char,int> q('q',8);
     ft::pair<char,int> t('t',8);
+    ft::pair<char,int> m('m',8);
+    ft::pair<char,int> n('n',8);
+
     // std::cout << "empty: "<< r.empty() << std::endl;
 
 
@@ -47,20 +58,69 @@ int main()
     r.insert(g);
     r.insert(h);
     r.insert(i);
-    // r.insert(j);
-    // r.insert(k);
-    // r.insert(l);
-    // r.insert(e);
+    r.insert(j);
+    r.insert(k);
+    r.insert(l);
+    r.insert(z);
+    r.insert(w);
+    r.insert(x);
+    r.insert(q);
+    r.insert(t);
+    r.insert(m);
+    r.insert(n);
+
+
+
+
 
     // r.print(r.get_root());
     // r.printLevelOrder(r.get_root());
     // std::cout << std::endl;
     r.printBT(r.get_root());
-    std::cout << std::endl;
-    r.erase('d');
+    // std::cout <<"--------------------------" <<std::endl;
+    // r.erase('d');
+    // std::cout <<"-----------Tree-----------" <<std::endl;
+    // r.printBT(r.get_root());
+    // std::cout <<"--------------------------" <<std::endl;
+
+    // r.erase('f');
+    // std::cout <<"-----------Tree-----------" <<std::endl;
+    // r.printBT(r.get_root());
+    // std::cout <<"--------------------------" <<std::endl;
+
+    // r.erase('h');
+    // r.printBT(r.get_root());
+    // std::cout <<"--------------------------" <<std::endl;
+
+    // r.erase('e');
+    // r.printBT(r.get_root());
+    // std::cout <<"--------------------------" <<std::endl;
+    // r.erase('i');
+    // r.printBT(r.get_root());
+    // std::cout <<"--------------------------" <<std::endl;
+    // r.erase('k');
+    // r.printBT(r.get_root());
+    // std::cout <<"--------------------------" <<std::endl;
+    // r.erase('b');
+    // r.printBT(r.get_root());
+    // std::cout <<"--------------------------" <<std::endl;
+    // r.erase('c');
+    // r.printBT(r.get_root());
+    // std::cout <<"--------------------------" <<std::endl;
+    // r.erase('g');
+    // r.printBT(r.get_root());
+    // std::cout <<"--------------------------" <<std::endl;
+    // r.erase('l');
+    // r.printBT(r.get_root());
+    // std::cout <<"--------------------------" <<std::endl;
+    r.erase('j');
     r.printBT(r.get_root());
-    r.erase('f');
-    r.printBT(r.get_root());
+    std::cout <<"--------------------------" <<std::endl;
+//   r.erase('z');
+//     r.printBT(r.get_root());
+//     std::cout <<"--------------------------" <<std::endl;
+
+    // print(r,i);
 
     return 0;
 }
