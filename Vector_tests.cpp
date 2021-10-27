@@ -3215,10 +3215,10 @@ void alarm_handler(int seg)
 int main(void)
 {
     signal(SIGALRM, alarm_handler);
-    // iterator_tests();
-    // const_iterator_tests();
-    // reverse_iterator_tests();
-	// reverse_iterator_with_ft_vector();
+    iterator_tests();
+    const_iterator_tests();
+    reverse_iterator_tests();
+	reverse_iterator_with_ft_vector();
     vector_tests();
     system("leaks a.out");
     return 0;

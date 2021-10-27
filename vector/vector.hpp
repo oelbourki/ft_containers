@@ -87,7 +87,7 @@ class vector
 							_allocator = alloc;
 							t = 0;
 						}
-		vector (const vector& x):_size(x._size),_index(x._index),_capacity(x._capacity),_allocator(x._allocator)
+		vector (const vector& x):_allocator(x._allocator),_size(x._size),_index(x._index),_capacity(x._capacity)
 		{
 			this->_arr = _allocator.allocate(this->_size);
 			for(size_t i = 0;i < this->_size;++i)
@@ -172,7 +172,7 @@ class vector
 				T* tmp = this->_allocator.allocate(tmpc);
 				if (tmp == NULL)
 					std::cout << "NULL" << std::endl;
-				for (size_t i = 0; i < d; i++)
+				for (int i = 0; i < d; i++)
 					_allocator.construct(tmp + i,this->_arr[i]);
 				for (size_t i = d; i < (n+d); i++)
 					_allocator.construct(tmp + i,val);
@@ -189,9 +189,9 @@ class vector
 		}
 		// std::cout << "not expand" << std::endl;
 		int start = 0;
-		for(start = this->_size + n - 1;((start) >= this->_size);--start)
+		for(start = this->_size + n - 1;((start) >= int(this->_size));--start)
 					_allocator.construct(this->_arr + start,this->_arr[start - n]);
-		for (int i = d; i < (n+d); i++)
+		for (int i = d; i < int(n+d); i++)
 					_allocator.construct(this->_arr + i,val);
 		this->_size += n;
 		this->_index += n;
@@ -233,7 +233,7 @@ class vector
 		}
 		// std::cout << "not expand" << std::endl;
 		int start = 0;
-		for(start = this->_size + n - 1;((start) >= this->_size);--start)
+		for(start = this->_size + n - 1;((start) >= int(this->_size));--start)
 					_allocator.construct(this->_arr + start,this->_arr[start - n]);
 		for (int i = d; i < (n+d); i++)
 			_allocator.construct(this->_arr + i,*(first++));
@@ -372,7 +372,7 @@ void vector<T,Alloc>::resize (size_type n, value_type val)
 	}
 	else if (n > this->_size && n <= this->_capacity)
 	{
-		for (int i = (this->_size - 1); i < n - 1; i++)
+		for (int i = (int(this->_size) - 1); i < int(n) - 1; i++)
 		{
 			this->push_back(val);
 		}

@@ -59,9 +59,6 @@ namespace ft{
             this->z = a.z;
             return *this;
         }
-		// operator const_iterator () {return z;}
-
-
 	};
 
   template< class Iterator >
@@ -100,7 +97,7 @@ namespace ft{
         Iterator base(void) const{ Iterator tmp = z;
 		
 		return ++tmp; }
-        size_t 		operator-(const reverse_iterator &v){size_t t = (size_t)(z - v.z); return t;}
+        difference_type 		operator-(const reverse_iterator &v){size_t t = (size_t)(z - v.z); return t;}
 		reverse_iterator 		&operator++(){this->z = --this->z;return *this;}
 		reverse_iterator 		&operator--(){this->z = ++this->z;return *this;}
         reverse_iterator operator--(int) {reverse_iterator temp = *this;--(*this);return temp;}
