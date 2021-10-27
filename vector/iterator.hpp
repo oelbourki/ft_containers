@@ -11,12 +11,6 @@ namespace ft{
 		public:
 		typedef ptrdiff_t difference_type;
 		typedef T value_type;
-		// typedef T& reference;
-		// typedef const T& const_refernce;
-		// typedef T* pointer;
-
-		// typedef typename value_type::key_type key_type;
-        // typedef typename value_type::mapped_type mapped_type;
         typedef typename std::iterator<std::random_access_iterator_tag, T>::reference reference;
         typedef typename std::iterator<std::random_access_iterator_tag, T>::pointer   pointer;
 		iterator(T* init):z(init){

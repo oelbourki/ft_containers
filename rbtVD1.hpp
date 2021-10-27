@@ -35,7 +35,18 @@ class RBT
         bool black;
         bool isleftchild;
         bool doubleBlack;
-        
+        Alloc _allocator;
+        // node(value_type& _p,Alloc &allocator)
+        // {
+        //     this->_allocator = allocator;
+        //     this->_allocator.allocate(1,this->p);
+        //     this->_allocator.construct(this->p,value_type(_p.first,_p.second));
+        //     // this->p = new value_type(_p.first,_p.second);
+        //     this->parent = this->right = this->left = nullptr;
+        //     this->black = false;
+        //     this->isleftchild = false;
+        //     this->doubleBlack = false;
+        // }
         node(value_type& _p)
         {
             this->p = new value_type(_p.first,_p.second);
@@ -44,7 +55,6 @@ class RBT
             this->isleftchild = false;
             this->doubleBlack = false;
         }
-    
         node(const node& a)
         {
             p = new value_type(a.p->first,a.p->second);
@@ -876,7 +886,9 @@ template < class value_type ,                                       // map::mapp
 typename RBT<value_type,Compare,Alloc>::node* RBT<value_type,Compare,Alloc>::insert(value_type& m)
 {
     // std::cout << "insert" << std::endl;
+    // node *new_node = new node(m,_allocator);
     node *new_node = new node(m);
+
     // fix duplicate
     if (root == nullptr)
     {

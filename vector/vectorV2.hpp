@@ -203,7 +203,7 @@ class vector
 		}
 		// std::cout << "not expand" << std::endl;
 		int start = 0;
-		for(start = this->_size + n - 1;((start + n) >= this->_size);--start)
+		for(start = this->_size + n - 1;((start) >= this->_size);--start)
 					_allocator.construct(this->_arr + start,this->_arr[start - n]);
 		for (size_t i = d; i < (n+d); i++)
 					_allocator.construct(this->_arr + i,val);
@@ -247,9 +247,8 @@ class vector
 		}
 		// std::cout << "not expand" << std::endl;
 		int start = 0;
-		for(start = this->_size + n - 1;((start + n) >= this->_size);--start)
+		for(start = this->_size + n - 1;((start) >= this->_size);--start)
 					_allocator.construct(this->_arr + start,this->_arr[start - n]);
-				// this->_arr[start] = this->_arr[start - n];
 		for (size_t i = d; i < (n+d); i++)
 			_allocator.construct(this->_arr + i,*(first++));
 		this->_size += n;
@@ -268,9 +267,7 @@ class vector
 //--------
 template <class T, class Alloc>
   bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs){
-	  return ft::equal(lhs.begin(),lhs.end(),rhs.begin());
-	//   return 0;
-
+	  return (lhs.size() == rhs.size()) && ft::equal(lhs.begin(),lhs.end(),rhs.begin());
   }
 template <class T, class Alloc>
   bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs){
@@ -283,6 +280,8 @@ template <class T, class Alloc>
 template <class T, class Alloc>
   bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs){
 	  return (lhs < rhs) || (lhs == rhs);
+	//   return 0;
+
   }
 template <class T, class Alloc>
   bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs){
@@ -291,7 +290,7 @@ template <class T, class Alloc>
   }
 template <class T, class Alloc>
   bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs){
-	  return !(lhs < rhs) || (lhs == rhs);
+	  return !(lhs < rhs);
   }
 
   template <class T, class Alloc>
@@ -352,7 +351,8 @@ void	vector<T,Alloc>::expand(size_t n)
 	}
 	// this->_allocator.deallocate(this->_arr,this->_capacity);
 	this->_capacity = n;
-	delete this->_arr;
+	if (this->_arr)
+		delete this->_arr;
 	this->_arr = tmp;
 }
 ///---------------Capacity---------------------
@@ -572,8 +572,8 @@ typename vector<T,Alloc>::iterator vector<T,Alloc>::insert (iterator position, c
 				this->_allocator.construct(tmp + d,val);
 				for (size_t i = d; i < this->_size; i++)
 					this->_allocator.construct(tmp + i + 1,this->_arr[i]);
-				// delete this->_arr;
-				// this->_arr = NULL;
+				delete this->_arr;
+				this->_arr = NULL;
 				this->_arr = tmp;
 				this->_index = this->_size;
 				this->_size++;
@@ -615,7 +615,7 @@ template < class T, class Alloc >
 	{
 		// std::cout << "erase" << std::endl;
 		size_t pos = this->diff(this->begin(),position);
-		this->_allocator.destroy(this->_arr + pos);
+		// this->_allocator.destroy(this->_arr + pos);
 		for(size_t i = pos; i < (this->_size - 1);i++)
 					this->_allocator.construct(this->_arr + i,this->_arr[i + 1]);
 		this->_index--;
@@ -627,9 +627,9 @@ template < class T, class Alloc >
 	{
 		size_t pos = this->diff(this->begin(),first);
 		size_t size = this->diff(first,last);
-		for(size_t i = pos; i < (this->_size - 1);i++){
-			this->_allocator.destroy(this->_arr + pos + i);
-		}
+		// for(size_t i = pos; i < (this->_size - 1);i++){
+		// 	this->_allocator.destroy(this->_arr + pos + i);
+		// }
 		this->_index -= size;
 		this->_size -= size;
 		return iterator(this->_arr + pos);
