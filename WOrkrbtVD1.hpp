@@ -39,9 +39,6 @@ class RBT
         node(value_type& _p)
         {
             this->p = new value_type(_p.first,_p.second);
-            // _allocator.allocate(this->p,1);
-            // _allocator.construct(this->p,make_pair(_p.first,_p.second));
-
             this->parent = this->right = this->left = nullptr;
             this->black = false;
             this->isleftchild = false;
@@ -74,7 +71,7 @@ class RBT
         delete this->p;
     }
     //check also second
-    bool 			operator != (const node &v){return this->p != v.p;}
+bool 			operator != (const node &v){return this->p != v.p;}
     bool 			operator== (const node &v){return this->p == v.p;}
     bool 			operator>(const node &v){return this->p > v.p;}
     bool 			operator>=(const node &v){return this->p >= v.p;}
@@ -84,21 +81,36 @@ class RBT
     typedef std::size_t size_t;
     node *root;
     size_t _size;
+    
     public:
     RBT()
     {
         this->root = nullptr;
         this->_size = 0;
     };
+    // RBT(const RBT& r)
+    // {
+    //     this->root = nullptr;
+    //     this->_size = r._size;
+    // };
     ~RBT()
     {
+        // delete this->root;
     }
     node *get_root() const
     {
         return this->root;
     }
+    void    dec(){
+        _size--;
+    }
     //----------------------------
-        node*    insert(value_type& m);
+    
+    //--------------------
+    // void    insert(ft::pair<key_type, mapped_type> m);
+    // void    insert(ft::pair<key_type, mapped_type>& m);
+    node*    insert(value_type& m);
+
     node*    insert(node *parent,node *new_node);
     void    checkcolor(node *new_node);
     void    print(node *root);
@@ -116,11 +128,11 @@ class RBT
     typedef ft::reverse_iterator_tree<const_iterator>
         const_reverse_iterator;
     class value_compare
-    {   
+    {   // in C++98, it is required to inherit binary_function<value_type,value_type,bool>
     friend class map;
     protected:
     Compare comp;
-    value_compare (Compare c) : comp(c) {} 
+    value_compare (Compare c) : comp(c) {}  // constructed with map's comparison object
     public:
     typedef bool result_type;
     typedef value_type first_argument_type;
@@ -147,9 +159,17 @@ class RBT
         if (!root)
             return NULL;
         if (_comp(index, root->p->first))
+        {   
+            // std::cout << "left:"<<root->p->first << std::endl;
+
             return find(index,root->left);
+        }
         else if (_comp(root->p->first,index))
+        {  
+            //  std::cout << "right:"<<root->p->first << std::endl;
+
             return find(index,root->right);
+        }
         else 
             return root;
     }
@@ -169,16 +189,156 @@ class RBT
         else 
             return root;
     }
+    //---------------------------------
+    void printBT(const std::string& prefix, const node* node1, bool isLeft)
+    {
+        if( node1 != nullptr )
+        {
+            std::cout << prefix;
+
+            std::cout << (isLeft ? "├──" : "└──" );
+
+            // print the second of the node1
+            std::cout << "( "<<node1->p->first <<", "<<node1->p->second<<", "<<node1->black<<", "<<node1->isleftchild<< " )" <<std::endl;
+
+            // enter the next tree level - left and right branch
+            printBT( prefix + (isLeft ? "│   " : "    "), node1->left, true);
+            printBT( prefix + (isLeft ? "│   " : "    "), node1->right, false);
+        }
+    }
+
+    void printBT(const node* node1)
+    {
+        printBT("", node1, false);    
+    }
+
+    static node*
+    increment(node* x)
+    {
+        if (!x->parent && !x->right)
+            return NULL;
+    if (x->right != 0)
+        {
+        x = x->right;
+        while (x->left != 0)
+            x = x->left;
+        }
+    else
+        {
+        node* y = x->parent;
+        while (y && x && x == y->right)
+            {
+            x = y;
+            y = y->parent;
+            }
+        if (x->right != y)
+            x = y;
+        }
+
+    return x;
+    }
+    static node*
+    decrement(node* x)
+    {
+        // if (x == NULL)
+        //     std::cout << "NULLLLLLLLL" << std::endl;
+        // if (!x->parent && !x->left && !x->right)
+        //     return NULL;
+    if (x->left != 0)
+        {
+        x = x->left;
+        while (x->right != 0)
+            x = x->right;
+        }
+    else
+        {
+        node* y = x->parent;
+        while (y && x && x == y->left)
+        // while (x == y->left)
+            {
+            x = y;
+            y = y->parent;
+            }
+        if (x->left != y)
+            x = y;
+        }
+    return x;
+    }
+    // Iterative method to find height of Binary Tree
+    void printLevelOrder(node* root)
+    {
+        // Base Case
+        if (root == NULL)
+            return;
+    
+        // Create an empty queue for level order traversal
+        std::queue<node*> q;
+    
+        // Enqueue Root and initialize height
+        q.push(root);
+    
+        while (q.empty() == false) {
+            std::cout << "\n";
+            // Print front of queue and remove it from queue
+            node* node1 = q.front();
+            // std::cout << "( "<<node1->first <<" : "<<node1->second <<" )"<< " ";
+            q.pop();
+    
+            /* Enqueue left child */
+            if (node1->left != NULL)
+                q.push(node1->left);
+    
+            /*Enqueue right child */
+            if (node1->right != NULL)
+                q.push(node1->right);
+        }
+    }
+    //---------------------------
+
+    int height(node* root)
+    {
+        // Base case: empty tree has a height of 0
+        if (root == nullptr) {
+            return 0;
+        }
+    
+        // recur for the left and right subtree and consider maximum depth
+        return 1 + max(height(root->left), height(root->right));
+    }
+    size_t myCount(const key_type& k,node* root) const{
+        if (root == 0)
+            return 0;
+        if (k < root->p->first)
+        {
+            return myCount(k,root->left);
+        }
+        else if (k > root->p->first)
+            return myCount(k,root->right);
+        else 
+            return 1;
+    }
+    void    print_node(node* tmp) const
+    {
+        if (!tmp)
+            std::cout << "node is null\n";
+        else 
+            std::cout << "node: first: " << tmp->p->first << " black: "<< tmp->black<< std::endl;
+    }
     //-----------------------------
     //iterators
     iterator begin(){return iterator(getMin(this->root),this);}
     const_iterator begin() const{return const_iterator(getMin(this->root),this);}
     iterator end(){return iterator(NULL,this);}
     const_iterator end() const{return const_iterator(NULL,this);}
+
     reverse_iterator rbegin(){return reverse_iterator(iterator(NULL,this));};
     const_reverse_iterator rbegin() const{return const_reverse_iterator(iterator(NULL,this));};
     reverse_iterator rend(){return reverse_iterator(iterator(getMin(this->root),this));};
     const_reverse_iterator rend() const{return const_reverse_iterator(iterator(getMin(this->root),this));};
+    // reverse_iterator rbegin(){return reverse_iterator(end());};
+    // const_reverse_iterator rbegin() const{return reverse_iterator(end());};
+    // reverse_iterator rend(){return reverse_iterator(begin());};
+    // const_reverse_iterator rend() const{return reverse_iterator(begin());};
     size_type count (const key_type& k) const{
         node* tmp = find(k, this->root);
         if (!tmp)
@@ -240,11 +400,10 @@ class RBT
         return iterator(tmp);
     }
 
-    const_iterator find( const key_type& first ) const{
-        return find(first);
-    }
+    // const_iterator find( const key_type& first ) const;
     //--------lower---bound------
-    iterator lower_bound( const key_type& first ){
+    iterator lower_bound( const key_type& first ) const{
+        // std::cout << "serachfor:" << first << std::endl;
         bool found = 0;
         node *p = NULL;
         node *tmp = myFind(first,this->root,&p);
@@ -252,23 +411,27 @@ class RBT
             return iterator(p,this);
         return iterator(tmp,this);
     }
-    const_iterator lower_bound( const key_type& first ) const{
-        return lower_bound(first);
-    }
+    // const_iterator lower_bound( const key_type& first ) const;
     //--------upper---bound------
-    iterator upper_bound( const key_type& first ){
+    iterator upper_bound( const key_type& first ) const{
+        // std::cout << "upper:" << first << std::endl;
+        // node *tmp = find(first,this->root);
         bool found = 0;
         node *p = NULL;
         node *tmp = myFind(first,this->root,&p);
+        // print_node(tmp);
         if (!tmp)
             return iterator(p,this);
         return ++iterator(tmp,this);
     }
-    const_iterator upper_bound( const key_type& first ) const{
-        return upper_bound(first);
-    }
+    // const_iterator upper_bound( const key_type& first ) const;
     //--------equal---range------------
     ft::pair<iterator,iterator> equal_range( const key_type& first ){
+        // std::cout << "equl:" << first << std::endl;
+
+        // ft::pair<iterator,iterator> p;
+        // p->first = this->lower_bound(first);
+        // p->second = this->upper_bound(first);
         ft::pair<iterator,iterator> * tmp = new ft::pair<iterator,iterator>(this->lower_bound(first),this->upper_bound(first));
         ft::pair<iterator,iterator> tmpt = *tmp;
         delete tmp;
@@ -334,19 +497,27 @@ class RBT
             }
             else 
             {
-                if (tmp->black == true)
-                    tmp->doubleBlack = true;
-                    delete_node(&tmp);
-                    delete_the_node(&tmp);
-                    return 1;
+                // delete tmp->p;
+
+                // tmpM = tmp;
+            if (tmp->black == true)
+                tmp->doubleBlack = true;
+                delete_node(&tmp);
+                delete_the_node(&tmp);
+                return 1;
             }
             if (tmpM)
             {
-                tmp->p = new value_type(tmpM->p->first,tmpM->p->second);
-                if (tmpM->black == true)
-                    tmpM->doubleBlack = true;
-                delete_node(&tmpM);
-                delete_the_node(&tmpM);
+
+            // else 
+            //     tmpM = tmp;
+            // delete tmp->p;
+            tmp->p = new value_type(tmpM->p->first,tmpM->p->second);
+            if (tmpM->black == true)
+                tmpM->doubleBlack = true;
+            delete_node(&tmpM);
+            delete_the_node(&tmpM);
+            // tmpM = NULL;
             }
             return 1;
     }
@@ -600,6 +771,85 @@ class RBT
 };
 //------------------------
 
+//------------------------
+template < class value_type ,                                    // map::mapped_type
+        class Compare,                     // map::key_compare
+        class Alloc    // map::allocator_type
+        >
+void RBT<value_type,Compare,Alloc>::print(node *root)
+{
+    if (root == nullptr)
+        return;
+
+        print(root->left);
+        std::cout <<"first " <<root->p->first << " second "<<root->second << "\n";
+        print(root->right);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 template < class value_type ,                                    // map::mapped_type
         class Compare,                     // map::key_compare
         class Alloc    // map::allocator_type
@@ -626,6 +876,7 @@ template < class value_type ,                                    // map::mapped_
         >
 void    RBT<value_type,Compare,Alloc>::rightRotate(node *new_node)
 {
+    // std::cout << "RightRotation" << std::endl;
     node *tmp = new_node->left;
     new_node->left = tmp->right;
     if (new_node->left != nullptr)
@@ -662,6 +913,7 @@ template < class value_type ,                                    // map::mapped_
         >
 void    RBT<value_type,Compare,Alloc>::leftRotate(node *new_node)
 {
+    // std::cout << "LeftRotation" << std::endl;
     node *tmp = new_node->right;
     new_node->right = tmp->left;
     if (new_node->right != nullptr)
@@ -766,6 +1018,7 @@ void RBT<value_type,Compare,Alloc>::correctTree(node *new_node)
     {
         if (new_node->parent->parent != nullptr)
         {
+            // std::cout << "right" << std::endl;
             if (new_node->parent->parent->left == nullptr ||
             new_node->parent->parent->left->black)
                 rotate(new_node);
@@ -834,6 +1087,7 @@ typename RBT<value_type,Compare,Alloc>::node* RBT<value_type,Compare,Alloc>::ins
         return parent;
     }
     checkcolor(new_node);
+    // delete new_node;
     return NULL;
 }
 
@@ -844,7 +1098,9 @@ template < class value_type ,                                       // map::mapp
         >
 typename RBT<value_type,Compare,Alloc>::node* RBT<value_type,Compare,Alloc>::insert(value_type& m)
 {
+    // std::cout << "insert" << std::endl;
     node *new_node = new node(m);
+    // fix duplicate
     if (root == nullptr)
     {
         root = new_node;
@@ -852,6 +1108,7 @@ typename RBT<value_type,Compare,Alloc>::node* RBT<value_type,Compare,Alloc>::ins
         _size++;
         return root;
     }
+    // _size++;
     return insert(root,new_node);
 }
 

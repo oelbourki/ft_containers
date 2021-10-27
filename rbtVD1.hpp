@@ -39,9 +39,6 @@ class RBT
         node(value_type& _p)
         {
             this->p = new value_type(_p.first,_p.second);
-            // _allocator.allocate(this->p,1);
-            // _allocator.construct(this->p,make_pair(_p.first,_p.second));
-
             this->parent = this->right = this->left = nullptr;
             this->black = false;
             this->isleftchild = false;
@@ -84,6 +81,7 @@ class RBT
     typedef std::size_t size_t;
     node *root;
     size_t _size;
+    
     public:
     RBT()
     {
@@ -97,8 +95,11 @@ class RBT
     {
         return this->root;
     }
+    void    dec(){
+        _size--;
+    }
     //----------------------------
-        node*    insert(value_type& m);
+    node*    insert(value_type& m);
     node*    insert(node *parent,node *new_node);
     void    checkcolor(node *new_node);
     void    print(node *root);
@@ -116,11 +117,11 @@ class RBT
     typedef ft::reverse_iterator_tree<const_iterator>
         const_reverse_iterator;
     class value_compare
-    {   
+    {   // in C++98, it is required to inherit binary_function<value_type,value_type,bool>
     friend class map;
     protected:
     Compare comp;
-    value_compare (Compare c) : comp(c) {} 
+    value_compare (Compare c) : comp(c) {}  // constructed with map's comparison object
     public:
     typedef bool result_type;
     typedef value_type first_argument_type;
@@ -175,6 +176,7 @@ class RBT
     const_iterator begin() const{return const_iterator(getMin(this->root),this);}
     iterator end(){return iterator(NULL,this);}
     const_iterator end() const{return const_iterator(NULL,this);}
+
     reverse_iterator rbegin(){return reverse_iterator(iterator(NULL,this));};
     const_reverse_iterator rbegin() const{return const_reverse_iterator(iterator(NULL,this));};
     reverse_iterator rend(){return reverse_iterator(iterator(getMin(this->root),this));};
@@ -186,7 +188,6 @@ class RBT
         else
         return 1;
     };
-
     bool empty() const{return this->root == nullptr;};
     size_type size() const{return this->_size;};
     size_type max_size() const{return _allocator.max_size();}
@@ -221,7 +222,6 @@ class RBT
     }
     //---------
     void swap( RBT& other ){
-        // this->swap()
         this->swap(this->root,other.root);
         this->swap(this->_size,other._size);
     }
@@ -240,11 +240,9 @@ class RBT
         return iterator(tmp);
     }
 
-    const_iterator find( const key_type& first ) const{
-        return find(first);
-    }
+    // const_iterator find( const key_type& first ) const;
     //--------lower---bound------
-    iterator lower_bound( const key_type& first ){
+    iterator lower_bound( const key_type& first ) const{
         bool found = 0;
         node *p = NULL;
         node *tmp = myFind(first,this->root,&p);
@@ -252,28 +250,26 @@ class RBT
             return iterator(p,this);
         return iterator(tmp,this);
     }
-    const_iterator lower_bound( const key_type& first ) const{
-        return lower_bound(first);
-    }
+    // const_iterator lower_bound( const key_type& first ) const;
     //--------upper---bound------
-    iterator upper_bound( const key_type& first ){
+    iterator upper_bound( const key_type& first ) const{
+        // std::cout << "upper:" << first << std::endl;
+        // node *tmp = find(first,this->root);
         bool found = 0;
         node *p = NULL;
         node *tmp = myFind(first,this->root,&p);
+        // print_node(tmp);
         if (!tmp)
             return iterator(p,this);
         return ++iterator(tmp,this);
     }
-    const_iterator upper_bound( const key_type& first ) const{
-        return upper_bound(first);
-    }
+    // const_iterator upper_bound( const key_type& first ) const;
     //--------equal---range------------
     ft::pair<iterator,iterator> equal_range( const key_type& first ){
         ft::pair<iterator,iterator> * tmp = new ft::pair<iterator,iterator>(this->lower_bound(first),this->upper_bound(first));
         ft::pair<iterator,iterator> tmpt = *tmp;
         delete tmp;
         return tmpt;
-        // return make_pair(this->lower_bound(first),this->lower_bound(first));
     }
    ft::pair<const_iterator,const_iterator> equal_range( const key_type& first ) const{
         ft::pair<const_iterator,const_iterator> * tmp = new ft::pair<const_iterator,const_iterator>(this->lower_bound(first),this->upper_bound(first));
@@ -334,23 +330,23 @@ class RBT
             }
             else 
             {
-                if (tmp->black == true)
-                    tmp->doubleBlack = true;
-                    delete_node(&tmp);
-                    delete_the_node(&tmp);
-                    return 1;
+            if (tmp->black == true)
+                tmp->doubleBlack = true;
+                delete_node(&tmp);
+                delete_the_node(&tmp);
+                return 1;
             }
             if (tmpM)
             {
-                tmp->p = new value_type(tmpM->p->first,tmpM->p->second);
-                if (tmpM->black == true)
-                    tmpM->doubleBlack = true;
-                delete_node(&tmpM);
-                delete_the_node(&tmpM);
+            tmp->p = new value_type(tmpM->p->first,tmpM->p->second);
+            if (tmpM->black == true)
+                tmpM->doubleBlack = true;
+            delete_node(&tmpM);
+            delete_the_node(&tmpM);
             }
             return 1;
     }
-        return 0;//For the first-based version (2), the function returns the number of elements erased.
+        return 0;
     }
     //-----------delete----------------------
    
@@ -466,7 +462,6 @@ class RBT
         bool tmp = (*rt)->isleftchild;
         if (!P && !(*rt)->left && !(*rt)->right)
         {
-            //rpoblem
             delete *rt;
             *rt = NULL;
             this->root = NULL;
@@ -548,57 +543,89 @@ class RBT
         }
     }
     bool operator==(RBT<value_type ,Compare,Alloc>& rhs ){
-                        // return lhs.r == rhs.r;
                         return ft::equal(begin(),end(),rhs.begin());
                     }
     bool operator!=(RBT<value_type ,Compare,Alloc>& rhs ){
-                        // return rhs.r != lhs.r;
                         return !ft::equal(begin(),end(),rhs.begin());
 
                     }
     bool operator<( RBT<value_type ,Compare,Alloc>& rhs ){
-                        // return rhs.r < lhs.r;
                         return ft::lexicographical_compare(begin(),end(),rhs.begin(),rhs.end());                        
                     }
     bool operator<=(RBT<value_type ,Compare,Alloc>& rhs ){
-                        // return rhs.r <= lhs.r;
                         return (*this < rhs) || (*this == rhs); 
                     }
     bool operator>( RBT<value_type ,Compare,Alloc>& rhs ){
-                        // return rhs.r > lhs.r;
                         return !(*this < rhs) && (*this != rhs);
                     }
     bool operator>=(RBT<value_type ,Compare,Alloc>& rhs ){
-                        // return rhs.r >= lhs.r;
                         return !(*this < rhs) || (*this == rhs);
-                    }
-    // bool operator==(const RBT<value_type,Compare,Alloc>& rhs ){
-    //                     // return lhs.r == rhs.r;
-    //                     return 1;
-    //                 }
-    // bool operator!=(const RBT<value_type,Compare,Alloc>& rhs ){
-    //                     // return rhs.r != lhs.r;
-    //                     return 1;
-    //                 }
-    // bool operator<( const RBT<value_type,Compare,Alloc>& rhs ){
-    //                     // return rhs.r < lhs.r;
-    //                     return 1;                        
-    //                 }
-    // bool operator<=(const RBT<value_type,Compare,Alloc>& rhs ){
-    //                     // return rhs.r <= lhs.r;
-    //                     return 1;
-    //                 }
-    // bool operator>( const RBT<value_type,Compare,Alloc>& rhs ){
-    //                     // return rhs.r > lhs.r;
-    //                     return 1;
-    //                 }
-    // bool operator>=(const RBT<value_type,Compare,Alloc>& rhs ){
-    //                     // return rhs.r >= lhs.r;
-    //                     return 1;
-    //                 }
-    
+                    } 
 };
-//------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 template < class value_type ,                                    // map::mapped_type
         class Compare,                     // map::key_compare
@@ -626,6 +653,7 @@ template < class value_type ,                                    // map::mapped_
         >
 void    RBT<value_type,Compare,Alloc>::rightRotate(node *new_node)
 {
+    // std::cout << "RightRotation" << std::endl;
     node *tmp = new_node->left;
     new_node->left = tmp->right;
     if (new_node->left != nullptr)
@@ -662,6 +690,7 @@ template < class value_type ,                                    // map::mapped_
         >
 void    RBT<value_type,Compare,Alloc>::leftRotate(node *new_node)
 {
+    // std::cout << "LeftRotation" << std::endl;
     node *tmp = new_node->right;
     new_node->right = tmp->left;
     if (new_node->right != nullptr)
@@ -766,6 +795,7 @@ void RBT<value_type,Compare,Alloc>::correctTree(node *new_node)
     {
         if (new_node->parent->parent != nullptr)
         {
+            // std::cout << "right" << std::endl;
             if (new_node->parent->parent->left == nullptr ||
             new_node->parent->parent->left->black)
                 rotate(new_node);
@@ -834,6 +864,7 @@ typename RBT<value_type,Compare,Alloc>::node* RBT<value_type,Compare,Alloc>::ins
         return parent;
     }
     checkcolor(new_node);
+    // delete new_node;
     return NULL;
 }
 
@@ -844,7 +875,9 @@ template < class value_type ,                                       // map::mapp
         >
 typename RBT<value_type,Compare,Alloc>::node* RBT<value_type,Compare,Alloc>::insert(value_type& m)
 {
+    // std::cout << "insert" << std::endl;
     node *new_node = new node(m);
+    // fix duplicate
     if (root == nullptr)
     {
         root = new_node;
@@ -852,6 +885,7 @@ typename RBT<value_type,Compare,Alloc>::node* RBT<value_type,Compare,Alloc>::ins
         _size++;
         return root;
     }
+    // _size++;
     return insert(root,new_node);
 }
 

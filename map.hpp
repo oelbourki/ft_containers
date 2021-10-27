@@ -4,7 +4,7 @@
 #include <stack>
 #include <memory>
 #include <deque>
-#include "rbtV6.hpp"
+#include "rbtVD1.hpp"
 #include "pair.hpp"
 
 namespace ft
@@ -54,7 +54,6 @@ namespace ft
             return *this;
         }
         ~map(){
-            
             clear();
         }
         //-------------
@@ -80,15 +79,16 @@ namespace ft
         void erase (iterator position){r.erase(position);}
         size_type erase (const key_type& k){return r.erase(k);}
         void erase (iterator first, iterator last){
-        ft::vector<key_type> tmp;
-        for (iterator it=first; it!=last; ++it)
-        {
-            tmp.push_back(it->first);
-        }
-        for (typename ft::vector<key_type>::iterator it=tmp.begin(); it!=tmp.end(); ++it)
-        {
-            r.erase(*it);
-        }
+            // ft::vector<key_type> tmp;
+            // for (iterator it=first; it!=last; ++it)
+            //     tmp.push_back(it->first);
+            // for (typename ft::vector<key_type>::iterator it=tmp.begin(); it!=tmp.end(); ++it)
+            //     r.erase(*it);
+            std::vector<key_type> tmp;
+            for (iterator it=first; it!=last; ++it)
+                tmp.push_back(it->first);
+            for (typename std::vector<key_type>::iterator it=tmp.begin(); it!=tmp.end(); ++it)
+                r.erase(*it);
         }
         //find
         iterator find (const key_type& k){return r.find(k);}
@@ -105,17 +105,11 @@ namespace ft
         void clear()
         { 
             if (size() > 0)
-            {
                 this->erase(begin(),end());
-            }
-            // delete r.get_root();
         }
         size_type count (const key_type& k) const{return r.count(k);}
         bool empty() const{return r.empty();}
         size_type max_size() const{return r.max_size();}
-        // map& operator= (const map& x){
-        //     this->
-        // }
         mapped_type& operator[] (const key_type& k){return this->r[k];}
         size_type size() const{return r.size();}
         void swap (map& x){r.swap(x.r);
@@ -123,11 +117,11 @@ namespace ft
         }
         allocator_type get_allocator() const{return this->_allocator;}
         class value_compare
-        {   // in C++98, it is required to inherit binary_function<value_type,value_type,bool>
+        {   
         friend class map;
         protected:
         Compare comp;
-        value_compare (Compare c) : comp(c) {}  // constructed with map's comparison object
+        value_compare (Compare c) : comp(c) {}  
         public:
         typedef bool result_type;
         typedef value_type first_argument_type;
