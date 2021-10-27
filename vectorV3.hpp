@@ -286,8 +286,8 @@ class vector
 //--------
 template <class T, class Alloc>
   bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs){
-	  return ft::equal(lhs.begin(),lhs.end(),rhs.begin());
-	//   return 0;
+	//   return std::equal(lhs.begin(),lhs.end(),rhs.begin());
+	  return 0;
 
   }
 template <class T, class Alloc>
@@ -304,7 +304,6 @@ template <class T, class Alloc>
   }
 template <class T, class Alloc>
   bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs){
-	//   std::cout << "frem" << std::endl;
 	  return !(lhs < rhs) && (lhs != rhs);
   }
 template <class T, class Alloc>
@@ -563,7 +562,7 @@ void vector<T,Alloc>::assign (size_type n, const value_type& val)
 	if (n > this->_capacity)
 	{
 
-		pointer tmp = this->_allocator.allocate(n);
+		pointer tmp = this->_allocator.allocate(n*2);
 		for(size_t i = 0;i < n;i++)
 			tmp[i] = val;
 		this->_allocator.deallocate(this->_arr,this->_capacity);

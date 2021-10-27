@@ -1,0 +1,13 @@
+map:
+erase
+equla range
+
+clear const key ..
+
+
+vaector:
+itertor range
+oprtaor= 
+insert
+reserver
+resize
