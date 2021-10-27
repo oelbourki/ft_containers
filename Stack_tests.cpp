@@ -11,9 +11,9 @@
 /* ************************************************************************************************ */
 
 // you should include your path to this files
-#include "stack.hpp"       // your stack path.
-#include "vector/vectorV2.hpp" // your vector path.
-#include "pair.hpp"  // path to ft::pair.
+#include "stack/stack.hpp"       // your stack path.
+#include "vector/vector.hpp" // your vector path.
+#include "utils/pair.hpp"  // path to ft::pair.
 
 #include <vector>
 #include <stack>
@@ -342,6 +342,6 @@ int main()
 
     std::cout << YELLOW << "Testing relational operators;" << RESET << std::endl;
     TEST_CASE(testRelationalOperators);
-
+		system("leaks a.out");
 	return 0;
 }
