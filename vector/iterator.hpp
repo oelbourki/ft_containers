@@ -94,16 +94,15 @@ namespace ft{
             *this = rit;
          }
 
-        Iterator base(void) const{ Iterator tmp = z;
-		
-		return ++tmp; }
-        difference_type 		operator-(const reverse_iterator &v){size_t t = (size_t)(z - v.z); return t;}
+        Iterator base(void) const{ Iterator tmp = z;return ++tmp; }
+		reverse_iterator operator+ (difference_type n) const { return (reverse_iterator(base() - n)); }
+		reverse_iterator operator- (difference_type n) const { return (reverse_iterator(base() + n)); }
+
+        difference_type 		operator-(const reverse_iterator &v){return v.base() - base();}
 		reverse_iterator 		&operator++(){this->z = --this->z;return *this;}
 		reverse_iterator 		&operator--(){this->z = ++this->z;return *this;}
         reverse_iterator operator--(int) {reverse_iterator temp = *this;--(*this);return temp;}
         reverse_iterator operator++(int) {reverse_iterator temp = *this;++(*this);return temp;}
-        reverse_iterator 		operator-(int v){return reverse_iterator (z + v);}
-		reverse_iterator 		operator+(int v){return reverse_iterator(z - v);}
 		reference	operator*(){return *z;};
 		pointer			operator->(){return &(*z);}
         reverse_iterator& operator =(const reverse_iterator& a)

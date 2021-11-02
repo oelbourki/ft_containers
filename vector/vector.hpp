@@ -59,6 +59,7 @@ class vector
 		}
 		explicit vector (size_type n, const value_type& val = value_type(),
 						const allocator_type& alloc = allocator_type()){
+							_allocator = alloc;
 							this->_arr = _allocator.allocate(n);
 							for(size_t i = 0;i < n;++i)
 							{
@@ -67,7 +68,6 @@ class vector
 							this->_size = n;
 							this->_index = n;
 							this->_capacity = n;
-							_allocator = alloc;
 						}
 		template <class InputIterator>
 				vector (InputIterator first, InputIterator last,typename std::enable_if<!std::is_integral<InputIterator>::value, InputIterator>::type* t = 0,
@@ -99,7 +99,7 @@ class vector
 		~vector(){
 			for(size_t i = 0; i < this->_size;++i)
 				this->_allocator.destroy(this->_arr + i);
-			this->_allocator.deallocate(this->_arr,this->_size);
+			this->_allocator.deallocate(this->_arr,this->_capacity);
 		}
 	//--------------operator= copy------------------------------
 		vector& operator= (const vector& x){
@@ -178,10 +178,14 @@ class vector
 					_allocator.construct(tmp + i,val);
 				for (size_t i = d;i < this->_size; i++)
 					_allocator.construct(tmp + i + n,this->_arr[i]);
-				delete this->_arr;
+				// clear();
+				for(size_t i = 0; i < this->_size;i++)
+						this->_allocator.destroy(this->_arr + i);
+
+				// delete this->_arr;
 				this->_arr = NULL;
 				this->_arr = tmp;
-				this->_index = this->_size;
+				// this->_index = this->_size;
 				this->_size += n;
 				this->_index += n;
 				this->_capacity = tmpc;
@@ -189,8 +193,15 @@ class vector
 		}
 		// std::cout << "not expand" << std::endl;
 		int start = 0;
-		for(start = this->_size + n - 1;((start) >= int(this->_size));--start)
-					_allocator.construct(this->_arr + start,this->_arr[start - n]);
+		int size = this->_size;
+		int nm = n;
+				// std::cout << "size :" << this->_size << "n:" << n << std::endl;
+				for(start = size + nm - 1;((start) >= size) && (start - nm) >= 0;--start)
+				{
+				// std::cout << "start :" << start << "start-n:"<< start - nm << std::endl;
+
+					_allocator.construct(this->_arr + start,this->_arr[start - nm]);
+				}
 		for (int i = d; i < int(n+d); i++)
 					_allocator.construct(this->_arr + i,val);
 		this->_size += n;
@@ -200,8 +211,11 @@ class vector
 	//range (3)	
 	template <class InputIterator>
 		void insert (iterator position, InputIterator first, InputIterator last,typename std::enable_if<!std::is_integral<InputIterator>::value, InputIterator>::type = InputIterator()){
-			int d = position - begin();
+			// std::cout << "range insert" << std::endl;
+ 			int d = position - begin();
 			int n = last - first;
+			if ( n <= 0 || d < 0)
+				return ;
 			//check values
 		int tmpc = this->_capacity;
 		if (this->_capacity * 2 > this->_size + n)//cap * 2
@@ -222,10 +236,11 @@ class vector
 					_allocator.construct(tmp + i,*(first++));
 				for (size_t i = d;i < this->_size; i++)
 					_allocator.construct(tmp + i + n,this->_arr[i]);
-				delete this->_arr;
-				this->_arr = NULL;
+				// clear();
+					for(size_t i = 0; i < this->_size;i++)
+						this->_allocator.destroy(this->_arr + i);
 				this->_arr = tmp;
-				this->_index = this->_size;
+				// this->_index = this->_size;
 				this->_size += n;
 				this->_index += n;
 				this->_capacity = tmpc;
@@ -233,8 +248,17 @@ class vector
 		}
 		// std::cout << "not expand" << std::endl;
 		int start = 0;
-		for(start = this->_size + n - 1;((start) >= int(this->_size));--start)
-					_allocator.construct(this->_arr + start,this->_arr[start - n]);
+		// int size = this->_size;
+		int size = this->_size;
+
+		int nm = n;
+				// std::cout << "size :" << size << "n:" << n << std::endl;
+				for(start = size + nm - 1;((start) >= size) && (start - nm) >= 0;--start)
+				{
+				// std::cout << "start :" << start << "start-n:"<< start - nm << std::endl;
+
+					_allocator.construct(this->_arr + start,this->_arr[start - nm]);
+				}
 		for (int i = d; i < (n+d); i++)
 			_allocator.construct(this->_arr + i,*(first++));
 		this->_size += n;
@@ -320,14 +344,16 @@ void	vector<T,Alloc>::expand(size_t n)
 	pointer tmp = this->_allocator.allocate(n);
 	if (tmp == NULL)
 		std::cout << "NULL" << std::endl;
-	for (size_t i = 0; i < this->_size; i++)
+	for (size_t i = 0; i < this->_size && i < n; i++)
 	{
 		this->_allocator.construct(tmp + i,this->_arr[i]);
 	}
+	this->_allocator.deallocate(this->_arr,this->_capacity);
 	// this->_allocator.deallocate(this->_arr,this->_capacity);
 	this->_capacity = n;
-	if (this->_arr)
-		delete this->_arr;
+	// if (this->_arr)
+	// 	delete this->_arr;
+	// this->_allocator.deallocate(this->_arr,this->_capacity);
 	this->_arr = tmp;
 }
 ///---------------Capacity---------------------
@@ -518,7 +544,7 @@ template < class T, class Alloc >
 					this->_allocator.construct(tmp + i,*first);
 					first++;
 				}
-				this->_allocator.deallocate(this->_arr,this->_size);
+				this->_allocator.deallocate(this->_arr,this->_capacity);//was the->_size
 				this->_arr = tmp;
 				this->_size = s;
 				this->_index = s;
@@ -535,11 +561,12 @@ typename vector<T,Alloc>::iterator vector<T,Alloc>::insert (iterator position, c
 		if ((this->_size + 1) > this->_capacity)
 		{
 			// std::cout << "inside" << std::endl;
+			int t = this->_capacity;
 				if (this->_capacity == 0)
-					this->_capacity = 1;
+					t = 1;
 				else 
-					this->_capacity *= 2;
-				T* tmp = this->_allocator.allocate(this->_capacity);
+					t *= 2;
+				T* tmp = this->_allocator.allocate(t);
 				if (tmp == NULL)
 					std::cout << "NULL" << std::endl;
 				for (int i = 0; i < d; i++)
@@ -547,16 +574,21 @@ typename vector<T,Alloc>::iterator vector<T,Alloc>::insert (iterator position, c
 				this->_allocator.construct(tmp + d,val);
 				for (size_t i = d; i < this->_size; i++)
 					this->_allocator.construct(tmp + i + 1,this->_arr[i]);
-				delete this->_arr;
+				// this->_allocator.deallocate(this->_arr,t);
+				// clear();
+					for(size_t i = 0; i < this->_size;i++)
+						this->_allocator.destroy(this->_arr + i);
+				// delete this->_arr;
 				this->_arr = NULL;
 				this->_arr = tmp;
 				this->_index = this->_size;
 				this->_size++;
 				this->_index++;
+				this->_capacity = t;
 				return iterator(this->_arr + d);
 		}
 		int start = 0;
-		for(start = this->_size;(start >= d && (start - 1) >= 0);--start)
+		for(start = this->_size;(start >= d);--start)
 			this->_allocator.construct(this->_arr + start,this->_arr[start - 1]);
 		this->_allocator.construct(this->_arr + d,val);
 		this->_size++;
@@ -568,6 +600,8 @@ void vector<T,Alloc>::clear()
 {
 	for(size_t i = 0; i < this->_size;i++)
 		this->_allocator.destroy(this->_arr + i);
+	// this->_allocator.deallocate(this->_arr,this->_capacity);
+	
 	this->_size = 0;
 	this->_index = 0;
 }
