@@ -1,1 +1,4 @@
-erase erase
+leak vector
+"        ft::pair<iterator,iterator> * tmp = new ft::pair<iterator,iterator>(this->lower_bound(first),this->upper_bound(first));
+        // ft::pair<iterator,iterator> * tmp = _allocator.allocate(1);
+        // _allocator.construct(tmp,ft::pair<iterator,iterator>(this->lower_bound(first),this->upper_bound(first)));"

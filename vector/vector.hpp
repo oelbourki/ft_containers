@@ -349,11 +349,7 @@ void	vector<T,Alloc>::expand(size_t n)
 		this->_allocator.construct(tmp + i,this->_arr[i]);
 	}
 	this->_allocator.deallocate(this->_arr,this->_capacity);
-	// this->_allocator.deallocate(this->_arr,this->_capacity);
 	this->_capacity = n;
-	// if (this->_arr)
-	// 	delete this->_arr;
-	// this->_allocator.deallocate(this->_arr,this->_capacity);
 	this->_arr = tmp;
 }
 ///---------------Capacity---------------------
@@ -574,10 +570,11 @@ typename vector<T,Alloc>::iterator vector<T,Alloc>::insert (iterator position, c
 				this->_allocator.construct(tmp + d,val);
 				for (size_t i = d; i < this->_size; i++)
 					this->_allocator.construct(tmp + i + 1,this->_arr[i]);
-				// this->_allocator.deallocate(this->_arr,t);
 				// clear();
 					for(size_t i = 0; i < this->_size;i++)
 						this->_allocator.destroy(this->_arr + i);
+				this->_allocator.deallocate(this->_arr,this->_capacity);
+
 				// delete this->_arr;
 				this->_arr = NULL;
 				this->_arr = tmp;
@@ -600,8 +597,8 @@ void vector<T,Alloc>::clear()
 {
 	for(size_t i = 0; i < this->_size;i++)
 		this->_allocator.destroy(this->_arr + i);
-	// this->_allocator.deallocate(this->_arr,this->_capacity);
-	
+	this->_allocator.deallocate(this->_arr,this->_capacity);
+	this->_arr = NULL;
 	this->_size = 0;
 	this->_index = 0;
 }

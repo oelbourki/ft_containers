@@ -36,10 +36,20 @@ class RBT
         bool isleftchild;
         bool doubleBlack;
         Alloc _allocator;
+        // node(value_type& _p,Alloc &allocator)
+        // {
+        //     this->_allocator = allocator;
+        //     this->_allocator.allocate(1,this->p);
+        //     this->_allocator.construct(this->p,value_type(_p.first,_p.second));
+        //     // this->p = new value_type(_p.first,_p.second);
+        //     this->parent = this->right = this->left = nullptr;
+        //     this->black = false;
+        //     this->isleftchild = false;
+        //     this->doubleBlack = false;
+        // }
         node(value_type& _p)
         {
-            this->p = _allocator.allocate(1);
-            _allocator.construct(this->p,value_type(_p.first,_p.second));
+            this->p = new value_type(_p.first,_p.second);
             this->parent = this->right = this->left = nullptr;
             this->black = false;
             this->isleftchild = false;
@@ -47,8 +57,7 @@ class RBT
         }
         node(const node& a)
         {
-            this->p = _allocator.allocate(1);
-            _allocator.construct(this->p,value_type(a.p->first,a.p->second));
+            p = new value_type(a.p->first,a.p->second);
             this->parent = a.parent;
             this->right = a.right;
             this->left = a.left;
@@ -79,8 +88,6 @@ class RBT
     bool 			operator<(const node &v){return this->p < v.p;}
     bool 			operator<=(const node &v){return this->p <= v.p;}
     };
-    typedef typename Alloc::template rebind<RBT::node>::other        node_all;
-    node_all _allocator_node;
     // typedef std::size_t size_t;
     node *root;
     size_t _size;
@@ -102,19 +109,7 @@ class RBT
         _size--;
     }
     //----------------------------
-    node*    insert(value_type& m){
-        node *new_node = _allocator_node.allocate(1);
-        _allocator_node.construct(new_node,m);
-        if (root == nullptr)
-        {
-            root = new_node;
-            root->black = true;
-            _size++;
-            return root;
-        }
-        return insert(root,new_node);
-}
-    
+    node*    insert(value_type& m);
     node*    insert(node *parent,node *new_node);
     void    checkcolor(node *new_node);
     void    print(node *root);
@@ -276,23 +271,13 @@ class RBT
     // const_iterator upper_bound( const key_type& first ) const;
     //--------equal---range------------
     ft::pair<iterator,iterator> equal_range( const key_type& first ){
-    typedef typename Alloc::template rebind<ft::pair<iterator,iterator> >::other        type;
-    type _p_allocator;
-
-        // ft::pair<iterator,iterator> * tmp = new ft::pair<iterator,iterator>(this->lower_bound(first),this->upper_bound(first));
-        ft::pair<iterator,iterator> * tmp = _p_allocator.allocate(1);
-        _p_allocator.construct(tmp,ft::pair<iterator,iterator>(this->lower_bound(first),this->upper_bound(first)));
+        ft::pair<iterator,iterator> * tmp = new ft::pair<iterator,iterator>(this->lower_bound(first),this->upper_bound(first));
         ft::pair<iterator,iterator> tmpt = *tmp;
         delete tmp;
         return tmpt;
     }
    ft::pair<const_iterator,const_iterator> equal_range( const key_type& first ) const{
-
-           typedef typename Alloc::template rebind<ft::pair<const_iterator,const_iterator> >::other        type;
-            type _p_allocator;
-        // ft::pair<const_iterator,const_iterator> * tmp = new ft::pair<const_iterator,const_iterator>(this->lower_bound(first),this->upper_bound(first));
-        ft::pair<const_iterator,const_iterator> * tmp = _p_allocator.allocate(1);
-        _p_allocator.construct(tmp,ft::pair<const_iterator,const_iterator>(this->lower_bound(first),this->upper_bound(first)));
+        ft::pair<const_iterator,const_iterator> * tmp = new ft::pair<const_iterator,const_iterator>(this->lower_bound(first),this->upper_bound(first));
         ft::pair<const_iterator,const_iterator> tmpt = *tmp;
         delete tmp;
         return tmpt;
@@ -358,9 +343,7 @@ class RBT
             }
             if (tmpM)
             {
-            // tmp->p = new value_type(tmpM->p->first,tmpM->p->second);
-            tmp->p = _allocator.allocate(1);
-            _allocator.construct(tmp->p,value_type(tmpM->p->first,tmpM->p->second));
+            tmp->p = new value_type(tmpM->p->first,tmpM->p->second);
             if (tmpM->black == true)
                 tmpM->doubleBlack = true;
             delete_node(&tmpM);
@@ -886,5 +869,30 @@ typename RBT<value_type,Compare,Alloc>::node* RBT<value_type,Compare,Alloc>::ins
         return parent;
     }
     checkcolor(new_node);
+    // delete new_node;
     return NULL;
 }
+
+
+template < class value_type ,                                       // map::mapped_type
+        class Compare,                     // map::key_compare
+        class Alloc    // map::allocator_type
+        >
+typename RBT<value_type,Compare,Alloc>::node* RBT<value_type,Compare,Alloc>::insert(value_type& m)
+{
+    // std::cout << "insert" << std::endl;
+    // node *new_node = new node(m,_allocator);
+    node *new_node = new node(m);
+
+    // fix duplicate
+    if (root == nullptr)
+    {
+        root = new_node;
+        root->black = true;
+        _size++;
+        return root;
+    }
+    // _size++;
+    return insert(root,new_node);
+}
+

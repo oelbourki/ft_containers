@@ -20,7 +20,7 @@ class RBT
     typedef typename allocator_type::const_reference	const_reference;
     typedef typename allocator_type::pointer	pointer;
     typedef typename allocator_type::const_pointer		const_pointer	;
-    typedef typename Alloc::template rebind<RBT>::other        node_all;
+    typedef typename Alloc::template rebind<RBT::node>::other        node_all;
 
 
     typedef size_t size_type;
@@ -36,10 +36,11 @@ class RBT
         bool isleftchild;
         bool doubleBlack;
         Alloc _allocator;
-        node(value_type& _p,Alloc allocator)
+        node(value_type& _p)
         {
 
             this->_allocator = allocator;
+            node_all.allocate
             this->_allocator.allocate(1,this->p);
             this->_allocator.construct(this->p,value_type(_p.first,_p.second));
             // this->p = new value_type(_p.first,_p.second);
