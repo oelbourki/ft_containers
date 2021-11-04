@@ -279,7 +279,6 @@ class RBT
     typedef typename Alloc::template rebind<ft::pair<iterator,iterator> >::other        type;
     type _p_allocator;
 
-        // ft::pair<iterator,iterator> * tmp = new ft::pair<iterator,iterator>(this->lower_bound(first),this->upper_bound(first));
         ft::pair<iterator,iterator> * tmp = _p_allocator.allocate(1);
         _p_allocator.construct(tmp,ft::pair<iterator,iterator>(this->lower_bound(first),this->upper_bound(first)));
         ft::pair<iterator,iterator> tmpt = *tmp;
@@ -288,9 +287,8 @@ class RBT
     }
    ft::pair<const_iterator,const_iterator> equal_range( const key_type& first ) const{
 
-           typedef typename Alloc::template rebind<ft::pair<const_iterator,const_iterator> >::other        type;
-            type _p_allocator;
-        // ft::pair<const_iterator,const_iterator> * tmp = new ft::pair<const_iterator,const_iterator>(this->lower_bound(first),this->upper_bound(first));
+        typedef typename Alloc::template rebind<ft::pair<const_iterator,const_iterator> >::other        type;
+        type _p_allocator;
         ft::pair<const_iterator,const_iterator> * tmp = _p_allocator.allocate(1);
         _p_allocator.construct(tmp,ft::pair<const_iterator,const_iterator>(this->lower_bound(first),this->upper_bound(first)));
         ft::pair<const_iterator,const_iterator> tmpt = *tmp;
@@ -358,7 +356,6 @@ class RBT
             }
             if (tmpM)
             {
-            // tmp->p = new value_type(tmpM->p->first,tmpM->p->second);
             tmp->p = _allocator.allocate(1);
             _allocator.construct(tmp->p,value_type(tmpM->p->first,tmpM->p->second));
             if (tmpM->black == true)

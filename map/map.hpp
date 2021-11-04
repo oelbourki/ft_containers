@@ -48,7 +48,7 @@ namespace ft
             *this = x;
         }
         map& operator= (const map& x){
-            this->clear();
+            // this->clear();g++
             this->insert(x.begin(),x.end());
             this->cmp = x.cmp;
             this->_allocator = x._allocator;
@@ -80,16 +80,18 @@ namespace ft
         void erase (iterator position){r.erase(position);}
         size_type erase (const key_type& k){return r.erase(k);}
         void erase (iterator first, iterator last){
-            // ft::vector<key_type> tmp;
+            std::vector<key_type> tmp;
             // for (iterator it=first; it!=last; ++it)
             //     tmp.push_back(it->first);
-            // for (typename ft::vector<key_type>::iterator it=tmp.begin(); it!=tmp.end(); ++it)
+            // for (typename std::vector<key_type>::iterator it=tmp.begin(); it!=tmp.end(); ++it)
             //     r.erase(*it);
-            std::vector<key_type> tmp;
+            int d = std::distance(first,last);
+            // for (int i = 0; i < d; ++i)
+            //     tmp.push_back(first[i].first);
             for (iterator it=first; it!=last; ++it)
-                tmp.push_back(it->first);
-            for (typename std::vector<key_type>::iterator it=tmp.begin(); it!=tmp.end(); ++it)
-                r.erase(*it);
+                 tmp.push_back(it->first);
+            for (int i = 0; i < d; ++i)
+                r.erase(tmp[i]);
         }
         //find
         iterator find (const key_type& k){return r.find(k);}

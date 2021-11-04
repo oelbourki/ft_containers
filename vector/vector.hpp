@@ -7,6 +7,7 @@
 #include <iterator>
 #include "../utils/pair.hpp"
 #include "iterator.hpp"
+
 namespace ft{
 
 template < class T, class Alloc = std::allocator<T> >
@@ -181,7 +182,7 @@ class vector
 				// clear();
 				for(size_t i = 0; i < this->_size;i++)
 						this->_allocator.destroy(this->_arr + i);
-
+				this->_allocator.deallocate(this->_arr,this->_capacity);
 				// delete this->_arr;
 				this->_arr = NULL;
 				this->_arr = tmp;
@@ -239,6 +240,8 @@ class vector
 				// clear();
 					for(size_t i = 0; i < this->_size;i++)
 						this->_allocator.destroy(this->_arr + i);
+				this->_allocator.deallocate(this->_arr,this->_capacity);
+			
 				this->_arr = tmp;
 				// this->_index = this->_size;
 				this->_size += n;
