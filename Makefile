@@ -1,3 +1,14 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: oel-bour <oel-bour@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/11/05 18:20:37 by oel-bour          #+#    #+#              #
+#    Updated: 2021/11/05 18:20:49 by oel-bour         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
 COMPILER = clang++
 FLAGS = --std=c++98 -Wall -Wextra -Werror -fsanitize=address
@@ -11,7 +22,5 @@ map:
 stack:
 	@$(COMPILER) $(FLAGS)	Stack_tests.cpp -o stack.out 
 
-set:
-	@$(COMPILER) $(FLAGS)	Set_tests.cpp -o set.out 
 clean:
-	rm -f vector.out map.out stack.out set.out
+	rm -f vector.out map.out stack.out 

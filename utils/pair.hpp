@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pair.hpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oel-bour <oel-bour@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/05 18:07:52 by oel-bour          #+#    #+#             */
+/*   Updated: 2021/11/05 18:12:40 by oel-bour         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #pragma once
 #include <iostream>
 #include <map>
@@ -113,6 +125,21 @@ template <class T1,class T2>
         	typedef const T&                            reference;
         	typedef std::random_access_iterator_tag	    iterator_category;
     };
+  template<bool Cond, class T = void> struct enable_if {};
+	template<class T> struct enable_if<true, T> { typedef T type; };
+  template<typename>    struct is_integral {static const bool value = false;};
+    template<>             struct is_integral<bool> {static const bool value = true;};
+    template<>             struct is_integral<char> {static const bool value = true;};
+    template<>             struct is_integral<signed char> {static const bool value = true;};
+    template<>             struct is_integral<short int> {static const bool value = true;};
+    template<>             struct is_integral<int> {static const bool value = true;};
+    template<>             struct is_integral<long int> {static const bool value = true;};
+    template<>             struct is_integral<long long int> {static const bool value = true;};
+    template<>             struct is_integral<unsigned char> {static const bool value = true;};
+    template<>             struct is_integral<unsigned short int> {static const bool value = true;};
+    template<>             struct is_integral<unsigned int> {static const bool value = true;};
+    template<>             struct is_integral<unsigned long int> {static const bool value = true;};
+    template<>             struct is_integral<unsigned long long int> {static const bool value = true;};
   template< class Iterator >
     class reverse_iterator_tree
 	{

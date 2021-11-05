@@ -1,14 +1,15 @@
-/* ************************************************************************************************ */
-/*                                                                                                  */
-/*                                                        :::   ::::::::   ::::::::  :::::::::::    */
-/*   Vector_test.cpp                                   :+:+:  :+:    :+: :+:    :+: :+:     :+:     */
-/*                                                      +:+         +:+        +:+        +:+       */
-/*   By: mamoussa <mamoussa@student.1337.ma>           +#+      +#++:      +#++:        +#+         */
-/*                                                    +#+         +#+        +#+      +#+           */
-/*   Created: 2021/07/10 19:43:45 by mamoussa        #+#  #+#    #+# #+#    #+#     #+#             */
-/*   Updated: 2021/09/23 12:57:39 by moboustt         ###   ########.fr       */
-/*                                                                                                  */
-/* ************************************************************************************************ */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Vector_tests.cpp                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oel-bour <oel-bour@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/05 18:09:00 by oel-bour          #+#    #+#             */
+/*   Updated: 2021/11/05 18:09:01 by oel-bour         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 
 #include <vector>
 # include <iostream>
@@ -3215,11 +3216,11 @@ void alarm_handler(int seg)
 int main(void)
 {
     signal(SIGALRM, alarm_handler);
-    // iterator_tests();
-    // const_iterator_tests();
-    // reverse_iterator_tests();
-	// reverse_iterator_with_ft_vector();
+    iterator_tests();
+    const_iterator_tests();
+    reverse_iterator_tests();
+	reverse_iterator_with_ft_vector();
     vector_tests();
-    // system("leaks a.out");
+    system("leaks a.out");
     return 0;
 }

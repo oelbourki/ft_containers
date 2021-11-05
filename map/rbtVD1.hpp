@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rbtVD1.hpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oel-bour <oel-bour@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/05 18:22:02 by oel-bour          #+#    #+#             */
+/*   Updated: 2021/11/05 18:22:03 by oel-bour         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #pragma once
 #include <utility> 
 #include <iostream>
@@ -20,9 +32,6 @@ class RBT
     typedef typename allocator_type::const_reference	const_reference;
     typedef typename allocator_type::pointer	pointer;
     typedef typename allocator_type::const_pointer		const_pointer	;
-
-
-
     typedef size_t size_type;
 
     private:
@@ -81,10 +90,8 @@ class RBT
     };
     typedef typename Alloc::template rebind<RBT::node>::other        node_all;
     node_all _allocator_node;
-    // typedef std::size_t size_t;
     node *root;
     size_t _size;
-    
     public:
     RBT()
     {
@@ -131,12 +138,12 @@ class RBT
         reverse_iterator;
     typedef ft::reverse_iterator_tree<const_iterator>
         const_reverse_iterator;
-    class value_compare
-    {   // in C++98, it is required to inherit binary_function<value_type,value_type,bool>
+    class value_compare : std::binary_function<value_type,value_type,bool>
+    {  
     friend class map;
     protected:
     Compare comp;
-    value_compare (Compare c) : comp(c) {}  // constructed with map's comparison object
+    value_compare (Compare c) : comp(c) {} 
     public:
     typedef bool result_type;
     typedef value_type first_argument_type;
@@ -229,7 +236,7 @@ class RBT
         if (!root)
         {
             value_type f(index,mapped_type());
-            insert(f);//get it and free
+            insert(f);
             node *tmp = find(index,this->root);
             return tmp->p->second;
         }
@@ -255,25 +262,42 @@ class RBT
         return iterator(tmp);
     }
 
-    // const_iterator find( const key_type& first ) const;
+    const_iterator find( const key_type& first ) const{
+        node *tmp = find(first,this->root);
+        if (!tmp)
+            return const_iterator(NULL,this);
+        return const_iterator(tmp);
+    }
     //--------lower---bound------
-    iterator lower_bound( const key_type& first ) const{
+    iterator lower_bound( const key_type& first ){
         node *p = NULL;
         node *tmp = myFind(first,this->root,&p);
         if (!tmp)
             return iterator(p,this);
         return iterator(tmp,this);
     }
-    // const_iterator lower_bound( const key_type& first ) const;
+    const_iterator lower_bound( const key_type& first ) const{
+        node *p = NULL;
+        node *tmp = myFind(first,this->root,&p);
+        if (!tmp)
+            return const_iterator(p,this);
+        return const_iterator(tmp,this);
+    }
     //--------upper---bound------
-    iterator upper_bound( const key_type& first ) const{
+    iterator upper_bound( const key_type& first ){
         node *p = NULL;
         node *tmp = myFind(first,this->root,&p);
         if (!tmp)
             return iterator(p,this);
         return ++iterator(tmp,this);
     }
-    // const_iterator upper_bound( const key_type& first ) const;
+    const_iterator upper_bound( const key_type& first ) const{
+        node *p = NULL;
+        node *tmp = myFind(first,this->root,&p);
+        if (!tmp)
+            return const_iterator(p,this);
+        return ++const_iterator(tmp,this);
+    }
     //--------equal---range------------
     ft::pair<iterator,iterator> equal_range( const key_type& first ){
     typedef typename Alloc::template rebind<ft::pair<iterator,iterator> >::other        type;
@@ -581,70 +605,6 @@ class RBT
                         return !(*this < rhs) || (*this == rhs);
                     } 
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 template < class value_type ,                                    // map::mapped_type
         class Compare,                     // map::key_compare

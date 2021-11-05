@@ -1,6 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   iterator.hpp                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oel-bour <oel-bour@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/05 18:07:48 by oel-bour          #+#    #+#             */
+/*   Updated: 2021/11/05 18:07:48 by oel-bour         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #pragma once
 #include <iostream>
-
 
 namespace ft{
     template<class T>
@@ -74,19 +85,12 @@ namespace ft{
 		typedef typename ft::iterator_traits<Iterator>::pointer pointer;
 		typedef typename ft::iterator_traits<Iterator>::reference reference;
 
-
-		// operator reverse_iterator<const T>() const{ return reverse_iterator<const T>(z);}
-
-         template<typename rit>
+        template<typename rit>
         reverse_iterator(const reverse_iterator<rit>& it)
         {
-			// std::cout << "here" << std::endl;
             this->z = --it.base();
         }
-		// reverse_iterator(Iterator init){z = init.base();};
 		reverse_iterator(Iterator init){
-			// std::cout << "here" << std::endl;
-
 			z = --init;};//must work
         // operator
 		reverse_iterator(){z = NULL;}
