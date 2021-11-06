@@ -6,7 +6,7 @@
 /*   By: oel-bour <oel-bour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 18:07:52 by oel-bour          #+#    #+#             */
-/*   Updated: 2021/11/06 11:00:30 by oel-bour         ###   ########.fr       */
+/*   Updated: 2021/11/06 14:21:19 by oel-bour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,20 +95,6 @@ template <class T1,class T2>
   }
   return true;
 }
-// template <class InputIterator1, class InputIterator2, class Compare>
-//   bool lexicographical_compare (InputIterator1 first1, InputIterator1 last1,
-//                                 InputIterator2 first2, InputIterator2 last2,
-//                                 Compare comp){
-//                 while (!((!comp(first1,last1) && !comp(first1,last1)))
-//                 {
-//                     // if (first2==last2 || *first2<*first1) return false;
-//                     if ((!comp(first2,last2) && !comp(first2,last2)) || comp(*first2,*first1)) return false;
-//                     else if (comp(*first1,*first2)) return true;
-//                     // else if (*first1<*first2) return true;
-//                     ++first1; ++first2;
-//                 }
-//                 return !(!comp(first2,last2) && !comp(first2,last2));
-//                                 }
 template <class InputIterator1, class InputIterator2, class Compare>
   bool lexicographical_compare (InputIterator1 first1, InputIterator1 last1,
                                 InputIterator2 first2, InputIterator2 last2,

@@ -6,7 +6,7 @@
 /*   By: oel-bour <oel-bour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 18:21:57 by oel-bour          #+#    #+#             */
-/*   Updated: 2021/11/06 10:47:57 by oel-bour         ###   ########.fr       */
+/*   Updated: 2021/11/06 14:22:26 by oel-bour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,6 @@ namespace ft
             clear();
         }
         //-------------
-        const RBT<value_type,Compare,Alloc> &get_tree() const{
-            return r;
-        }
                  //---
         //iterators
         iterator begin(){return r.begin();}
@@ -143,38 +140,37 @@ namespace ft
     value_compare value_comp() const{
         return value_compare(cmp);
     }
-
+ 
+        friend bool operator==( const ft::map<Key,T,Compare,Alloc>& lhs,
+                        const ft::map<Key,T,Compare,Alloc>& rhs ){
+                            return const_cast<RBT<ft::pair<const Key,T>,Compare,Alloc>&>(lhs.r) == const_cast<RBT<ft::pair<const Key,T>,Compare,Alloc>&>(rhs.r);
+                        }
+        
+        friend bool operator!=( const ft::map<Key,T,Compare,Alloc>& lhs,
+                        const ft::map<Key,T,Compare,Alloc>& rhs ){
+                            return const_cast<RBT<ft::pair<const Key,T>,Compare,Alloc>&>(lhs.r) != const_cast<RBT<ft::pair<const Key,T>,Compare,Alloc>&>(rhs.r);
+                        }
+        
+        friend bool operator<( const ft::map<Key,T,Compare,Alloc>& lhs,
+                        const ft::map<Key,T,Compare,Alloc>& rhs ){
+                            return const_cast<RBT<ft::pair<const Key,T>,Compare,Alloc>&>(lhs.r) < const_cast<RBT<ft::pair<const Key,T>,Compare,Alloc>&>(rhs.r);
+                        }
+        
+        friend bool operator<=( const ft::map<Key,T,Compare,Alloc>& lhs,
+                        const ft::map<Key,T,Compare,Alloc>& rhs ){
+                            return const_cast<RBT<ft::pair<const Key,T>,Compare,Alloc>&>(lhs.r) <= const_cast<RBT<ft::pair<const Key,T>,Compare,Alloc>&>(rhs.r);
+                        }
+        
+        friend bool operator>( const ft::map<Key,T,Compare,Alloc>& lhs,
+                        const ft::map<Key,T,Compare,Alloc>& rhs ){
+                            return const_cast<RBT<ft::pair<const Key,T>,Compare,Alloc>&>(lhs.r) > const_cast<RBT<ft::pair<const Key,T>,Compare,Alloc>&>(rhs.r);
+                        }
+        
+        friend bool operator>=( const ft::map<Key,T,Compare,Alloc>& lhs,
+                        const ft::map<Key,T,Compare,Alloc>& rhs ){
+                            return const_cast<RBT<ft::pair<const Key,T>,Compare,Alloc>&>(lhs.r) >= const_cast<RBT<ft::pair<const Key,T>,Compare,Alloc>&>(rhs.r);
+                        }
     };
-        template< class Key, class T, class Compare, class Alloc >
-        bool operator==( const ft::map<Key,T,Compare,Alloc>& lhs,
-                        const ft::map<Key,T,Compare,Alloc>& rhs ){
-                            return const_cast<RBT<ft::pair<const Key,T>,Compare,Alloc>&>(lhs.get_tree()) == const_cast<RBT<ft::pair<const Key,T>,Compare,Alloc>&>(rhs.get_tree());
-                        }
-        template< class Key, class T, class Compare, class Alloc >
-        bool operator!=( const ft::map<Key,T,Compare,Alloc>& lhs,
-                        const ft::map<Key,T,Compare,Alloc>& rhs ){
-                            return const_cast<RBT<ft::pair<const Key,T>,Compare,Alloc>&>(lhs.get_tree()) != const_cast<RBT<ft::pair<const Key,T>,Compare,Alloc>&>(rhs.get_tree());
-                        }
-        template< class Key, class T, class Compare, class Alloc >
-        bool operator<( const ft::map<Key,T,Compare,Alloc>& lhs,
-                        const ft::map<Key,T,Compare,Alloc>& rhs ){
-                            return const_cast<RBT<ft::pair<const Key,T>,Compare,Alloc>&>(lhs.get_tree()) < const_cast<RBT<ft::pair<const Key,T>,Compare,Alloc>&>(rhs.get_tree());
-                        }
-        template< class Key, class T, class Compare, class Alloc >
-        bool operator<=( const ft::map<Key,T,Compare,Alloc>& lhs,
-                        const ft::map<Key,T,Compare,Alloc>& rhs ){
-                            return const_cast<RBT<ft::pair<const Key,T>,Compare,Alloc>&>(lhs.get_tree()) <= const_cast<RBT<ft::pair<const Key,T>,Compare,Alloc>&>(rhs.get_tree());
-                        }
-        template< class Key, class T, class Compare, class Alloc >
-        bool operator>( const ft::map<Key,T,Compare,Alloc>& lhs,
-                        const ft::map<Key,T,Compare,Alloc>& rhs ){
-                            return const_cast<RBT<ft::pair<const Key,T>,Compare,Alloc>&>(lhs.get_tree()) > const_cast<RBT<ft::pair<const Key,T>,Compare,Alloc>&>(rhs.get_tree());
-                        }
-        template< class Key, class T, class Compare, class Alloc >
-        bool operator>=( const ft::map<Key,T,Compare,Alloc>& lhs,
-                        const ft::map<Key,T,Compare,Alloc>& rhs ){
-                            return const_cast<RBT<ft::pair<const Key,T>,Compare,Alloc>&>(lhs.get_tree()) >= const_cast<RBT<ft::pair<const Key,T>,Compare,Alloc>&>(rhs.get_tree());
-                        }
                         template <class Key, class T, class Compare, class Alloc>
   void swap (map<Key,T,Compare,Alloc>& x, map<Key,T,Compare,Alloc>& y){
       x.swap(y);
