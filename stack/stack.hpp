@@ -6,7 +6,7 @@
 /*   By: oel-bour <oel-bour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 18:22:07 by oel-bour          #+#    #+#             */
-/*   Updated: 2021/11/05 18:22:08 by oel-bour         ###   ########.fr       */
+/*   Updated: 2021/11/06 14:08:02 by oel-bour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ namespace ft
         private:
         Container c;
         public:
+        typedef size_t size_type;
         typedef Container container_type;
         explicit stack (const container_type& ctnr = container_type()){
             c = ctnr;
         }
         typedef T value_type;
-        typedef int size_type;
         bool empty() const{return  c.empty();}
         void pop(){c.pop_back();}
         void push (const value_type& val){c.push_back(val);}

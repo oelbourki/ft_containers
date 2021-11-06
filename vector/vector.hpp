@@ -6,7 +6,7 @@
 /*   By: oel-bour <oel-bour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 18:07:45 by oel-bour          #+#    #+#             */
-/*   Updated: 2021/11/05 18:13:16 by oel-bour         ###   ########.fr       */
+/*   Updated: 2021/11/06 14:08:35 by oel-bour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,11 @@ class vector
 		iterator insert (iterator position, const value_type& val);
 	//fill (2)	
 		void insert (iterator position, size_type n, const value_type& val){
+			if (n == 1)
+			{
+				insert(position,val);
+				return;
+			}
 			int d = position - begin();
 			int tmpc = this->_capacity;
 		if (this->_capacity * 2 > this->_size + n)//cap * 2
@@ -219,6 +224,11 @@ class vector
 			int n = last - first;
 			if ( n <= 0 || d < 0)
 				return ;
+		if (n == 1)
+			{
+				insert(position,*first);
+				return;
+			}
 		int tmpc = this->_capacity;
 		if (this->_capacity * 2 > this->_size + n)
 				tmpc *= 2;
@@ -488,14 +498,20 @@ void	vector<T,Alloc>::pop_back()
 template < class T, class Alloc >
 void vector<T,Alloc>::assign (size_type n, const value_type& val)
 {
+
 	if (n > this->_capacity)
 	{
-		pointer tmp = this->_allocator.allocate(n);
+		int tmpc = this->_capacity;
+		if (this->_capacity * 2 > n)//cap * 2
+				tmpc *= 2;
+		else 
+			tmpc = n;
+		pointer tmp = this->_allocator.allocate(tmpc);
 		for(size_t i = 0;i < n;i++)
 			this->_allocator.construct(tmp + i,val);
 		this->_allocator.deallocate(this->_arr,this->_capacity);
 		this->_arr = tmp;
-		this->_capacity = n;
+		this->_capacity = tmpc;
 		this->_size = n;
 		this->_index = n;
 	}
@@ -513,21 +529,32 @@ template < class T, class Alloc >
 	template <class InputIterator>
 		void vector<T,Alloc>::assign (InputIterator first, InputIterator last,typename std::enable_if<!std::is_integral<InputIterator>::value, InputIterator>::type)
 		{
-			int s = this->diff(first,last);
-			if (s > 0)
-			{
-				pointer tmp = this->_allocator.allocate(s);
-				for (int i=0;i < s;i++){
-					this->_allocator.construct(tmp + i,*first);
-					first++;
-				}
-				this->_allocator.deallocate(this->_arr,this->_capacity);
-				this->_arr = tmp;
-				this->_size = s;
-				this->_index = s;
-				this->_capacity = s;
-			}
-		}
+	int n = this->diff(first,last);
+	if (n > int(this->_capacity))
+	{
+		int tmpc = this->_capacity;
+		if (int(this->_capacity * 2) > n)//cap * 2
+				tmpc *= 2;
+		else 
+			tmpc = n;
+		pointer tmp = this->_allocator.allocate(tmpc);
+		for(int i = 0;i < n;i++)
+			this->_allocator.construct(tmp + i,*(first++));
+		
+		this->_allocator.deallocate(this->_arr,this->_capacity);
+		this->_arr = tmp;
+		this->_capacity = tmpc;
+		this->_size = n;
+		this->_index = n;
+	}
+	else
+	{
+		for(int i = 0;i < n;i++)
+			this->_allocator.construct(this->_arr + i,*(first++));
+		this->_index = n;
+		this->_size = n;
+	}			
+}
 
 
 template < class T, class Alloc >

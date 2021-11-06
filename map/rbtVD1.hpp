@@ -6,7 +6,7 @@
 /*   By: oel-bour <oel-bour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 18:22:02 by oel-bour          #+#    #+#             */
-/*   Updated: 2021/11/05 18:22:03 by oel-bour         ###   ########.fr       */
+/*   Updated: 2021/11/06 10:45:53 by oel-bour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,6 @@ class RBT
         const_reverse_iterator;
     class value_compare : std::binary_function<value_type,value_type,bool>
     {  
-    friend class map;
     protected:
     Compare comp;
     value_compare (Compare c) : comp(c) {} 
