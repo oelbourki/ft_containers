@@ -31,10 +31,12 @@ int main ()
 
   ft::pair<ft::set<int>::iterator,ft::set<int>::iterator> ret;
   ft::pair<ft::set<int>::const_iterator,ft::set<int>::const_iterator> c_ret;
+ft::set<int>::const_iterator f = myset.begin();
+ft::set<int>::iterator g = c_myset.begin();
 
   c_ret = myset.equal_range(30);
-ret = c_myset.equal_range(30);
-  std::cout << "the lower bound points to: " << *ret.first << '\n';
-  std::cout << "the upper bound points to: " << *ret.second << '\n';
+// ret = c_myset.equal_range(30);
+//   std::cout << "the lower bound points to: " << *ret.first << '\n';
+//   std::cout << "the upper bound points to: " << *ret.second << '\n';
   return 0;
 }

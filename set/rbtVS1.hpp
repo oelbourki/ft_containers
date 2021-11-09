@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rbtVS1.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-bour <oel-bour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 18:22:02 by oel-bour          #+#    #+#             */
-/*   Updated: 2021/11/09 18:26:33 by oel-bour         ###   ########.fr       */
+/*   Updated: 2021/11/09 20:56:33 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,7 +287,7 @@ class RBT
             return iterator(p,this);
         return ++iterator(tmp,this);
     }
-    const_iterator upper_bound( const value_type& first ) const{
+    const_iterator upper_bound( const value_type& first ) const {
         node *p = NULL;
         node *tmp = myFind(first,this->root,&p);
         if (!tmp)
