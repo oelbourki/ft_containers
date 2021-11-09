@@ -6,7 +6,7 @@
 /*   By: oel-bour <oel-bour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 18:08:06 by oel-bour          #+#    #+#             */
-/*   Updated: 2021/11/05 18:08:06 by oel-bour         ###   ########.fr       */
+/*   Updated: 2021/11/09 18:39:41 by oel-bour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ namespace ft{
         
 
 
-        typedef ft::pair<key_type, mapped_type> val;
+        // typedef ft::pair<key_type, mapped_type> val;
 		iterator_tree(T* init,Tree const *r):z(init),_r(r){};
 		iterator_tree(T* init):z(init){};
 		iterator_tree():z(NULL),_r(NULL){};

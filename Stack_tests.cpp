@@ -6,7 +6,7 @@
 /*   By: oel-bour <oel-bour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 18:08:39 by oel-bour          #+#    #+#             */
-/*   Updated: 2021/11/05 18:08:44 by oel-bour         ###   ########.fr       */
+/*   Updated: 2021/11/07 10:46:43 by oel-bour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -342,6 +342,6 @@ int main()
 
     std::cout << YELLOW << "Testing relational operators;" << RESET << std::endl;
     TEST_CASE(testRelationalOperators);
-		system("leaks a.out");
+		system("leaks stack.out");
 	return 0;
 }

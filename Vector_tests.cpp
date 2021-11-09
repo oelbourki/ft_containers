@@ -6,7 +6,7 @@
 /*   By: oel-bour <oel-bour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 18:09:00 by oel-bour          #+#    #+#             */
-/*   Updated: 2021/11/05 18:09:01 by oel-bour         ###   ########.fr       */
+/*   Updated: 2021/11/07 10:46:31 by oel-bour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -3221,6 +3221,6 @@ int main(void)
     reverse_iterator_tests();
 	reverse_iterator_with_ft_vector();
     vector_tests();
-    system("leaks a.out");
+    system("leaks vector.out");
     return 0;
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_main.cpp                                        :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oel-bour <oel-bour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 19:39:16 by oel-bour          #+#    #+#             */
-/*   Updated: 2021/11/06 14:00:12 by oel-bour         ###   ########.fr       */
+/*   Updated: 2021/11/08 15:39:36 by oel-bour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -513,10 +513,6 @@ std::cout << "	======================>\033[1;31m iteartors && rev_iterators arit
 
 	ft_iter = ft_map.begin();
 	ft_iter1 = ft_map.end();
-	// ft_iter = ft_map2.end();
-	// for(;ft_iter != ft_iter1; ++ft_iter)
-	// 	std::cout << ft_iter->first << " ";
-	// std::cout << std::endl;
 
 	ft::map<char,std::string> mymap;
 	mymap['a']="an element";

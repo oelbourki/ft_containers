@@ -6,7 +6,7 @@
 /*   By: oel-bour <oel-bour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 18:07:48 by oel-bour          #+#    #+#             */
-/*   Updated: 2021/11/06 14:01:29 by oel-bour         ###   ########.fr       */
+/*   Updated: 2021/11/07 10:55:14 by oel-bour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ namespace ft{
 		typedef typename ft::iterator_traits<Iterator>::difference_type difference_type;
 		typedef typename ft::iterator_traits<Iterator>::pointer pointer;
 		typedef typename ft::iterator_traits<Iterator>::reference reference;
-		// operator reverse_iterator<const reverse_iterator>() const{ return reverse_iterator<const T>(_Pointer);}
         template<typename rit>
         reverse_iterator(const reverse_iterator<rit>& it)
         {

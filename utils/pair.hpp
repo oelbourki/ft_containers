@@ -6,7 +6,7 @@
 /*   By: oel-bour <oel-bour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 18:07:52 by oel-bour          #+#    #+#             */
-/*   Updated: 2021/11/06 14:21:19 by oel-bour         ###   ########.fr       */
+/*   Updated: 2021/11/07 10:55:41 by oel-bour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,7 @@ template <class InputIterator1, class InputIterator2, class Compare>
           this->z = --it.base();
         }
 		reverse_iterator_tree(Iterator init){
-      z = --init;};//must work
+      z = --init;};
 		reverse_iterator_tree(){z = NULL;}
         reverse_iterator_tree(reverse_iterator_tree const& rit){ 
             *this = rit;

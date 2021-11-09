@@ -6,7 +6,7 @@
 /*   By: oel-bour <oel-bour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 18:21:57 by oel-bour          #+#    #+#             */
-/*   Updated: 2021/11/06 14:22:26 by oel-bour         ###   ########.fr       */
+/*   Updated: 2021/11/09 15:23:18 by oel-bour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,10 +122,9 @@ namespace ft
 
         }
         allocator_type get_allocator() const{return this->_allocator;}
-        class value_compare
+        class value_compare : public std::binary_function<value_type,value_type,bool>
         {   
-        friend class map;
-        protected:
+        public:
         Compare comp;
         value_compare (Compare c) : comp(c) {}  
         public:

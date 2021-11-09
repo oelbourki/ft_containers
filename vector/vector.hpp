@@ -6,7 +6,7 @@
 /*   By: oel-bour <oel-bour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 18:07:45 by oel-bour          #+#    #+#             */
-/*   Updated: 2021/11/06 14:08:35 by oel-bour         ###   ########.fr       */
+/*   Updated: 2021/11/08 15:40:18 by oel-bour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,6 @@ class vector
 			else 
 				this->_arr = NULL;
 			return *this;
-			// this->_arr
 		}
 	//---------------Iterators---------------------
 		iterator	begin(){return iterator(this->_arr);}
@@ -164,7 +163,7 @@ class vector
 		void push_back (const value_type& val);
 		void pop_back();
 		template <class InputIterator>
-		void assign (InputIterator first, InputIterator last,typename std::enable_if<!std::is_integral<InputIterator>::value, InputIterator>::type = InputIterator());//range
+		void assign (InputIterator first, InputIterator last,typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type = InputIterator());//range
 		void assign (size_type n, const value_type& val);//fill
 	//single element (1)	
 		iterator insert (iterator position, const value_type& val);
@@ -219,7 +218,7 @@ class vector
 		}
 	//range (3)	
 	template <class InputIterator>
-		void insert (iterator position, InputIterator first, InputIterator last,typename std::enable_if<!std::is_integral<InputIterator>::value, InputIterator>::type = InputIterator()){
+		void insert (iterator position, InputIterator first, InputIterator last,typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type = InputIterator()){
  			int d = position - begin();
 			int n = last - first;
 			if ( n <= 0 || d < 0)
@@ -527,7 +526,7 @@ void vector<T,Alloc>::assign (size_type n, const value_type& val)
 
 template < class T, class Alloc >
 	template <class InputIterator>
-		void vector<T,Alloc>::assign (InputIterator first, InputIterator last,typename std::enable_if<!std::is_integral<InputIterator>::value, InputIterator>::type)
+		void vector<T,Alloc>::assign (InputIterator first, InputIterator last,typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type)
 		{
 	int n = this->diff(first,last);
 	if (n > int(this->_capacity))
