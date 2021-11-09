@@ -1,14 +1,4 @@
-/* ************************************************************************************************ */
-/*                                                                                                  */
-/*                                                        :::   ::::::::   ::::::::  :::::::::::    */
-/*   Set_tests.cpp                                     :+:+:  :+:    :+: :+:    :+: :+:     :+:     */
-/*                                                      +:+         +:+        +:+        +:+       */
-/*   By: mamoussa <mamoussa@student.1337.ma>           +#+      +#++:      +#++:        +#+         */
-/*                                                    +#+         +#+        +#+      +#+           */
-/*   Created: 2021/10/13 19:27:43 by mamoussa        #+#  #+#    #+# #+#    #+#     #+#             */
-/*   Updated: 2021/10/13 19:27:43 by mamoussa     ####### ########   ########      ###.ma           */
-/*                                                                                                  */
-/* ************************************************************************************************ */
+
 
 // you should include your path to this files
 
@@ -36,7 +26,7 @@
 #define RESET "\e[0m"
 
 #define EQUAL(x) ((x) ? (std::cout << "\033[1;32mAC\033[0m\n") : (std::cout << "\033[1;31mWA\033[0m\n"))
-#define TIME_FAC 4 // the ft::set methods can be slower up to std::set methods * TIME_FAC (MAX 20)
+#define TIME_FAC 20 // the ft::set methods can be slower up to std::set methods * TIME_FAC (MAX 20)
 
 typedef std::pair<std::set<int>::iterator, std::set<int>::iterator> iter_def;
 typedef ft::pair<ft::set<int>::iterator, ft::set<int>::iterator> ft_iter_def;
@@ -1332,7 +1322,7 @@ void testModifiers()
             ft_m3.insert(i);
         }
 
-        for (size_t i = 0; i < 1e6; ++i)
+        for (size_t i = 0; i < 1e5; ++i)
         {
             int n = distr(generator);
             int ret1 = m3.erase(n);
@@ -1944,23 +1934,23 @@ void testOperations()
 
         res = c_m.equal_range(15);
         ft_res = c_ft_m.equal_range(15);
-        // cond = (cond && (*(ft_res.first) == *(res.first)) && (*(ft_res.second) == *(res.second)));
-        // res = c_m.equal_range(65);
-        // ft_res = c_ft_m.equal_range(65);
-        // cond = (cond && (*(ft_res.first) == *(res.first)) && (*(ft_res.second) == *(res.second)));
-        // res = c_m.equal_range(63);
-        // ft_res = c_ft_m.equal_range(63);
-        // cond = (cond && (*(ft_res.first) == *(res.first)) && (*(ft_res.second) == *(res.second)));
-        // res = c_m.equal_range(120);
-        // ft_res = c_ft_m.equal_range(120);
-        // cond = (cond && (*(ft_res.first) == *(res.first)) && (*(ft_res.second) == *(res.second)));
-        // res = c_m.equal_range(70);
-        // ft_res = c_ft_m.equal_range(70);
-        // cond = (cond && (*(ft_res.first) == *(res.first)) && (*(ft_res.second) == *(res.second)));
-        // res = c_m.equal_range(150);
-        // ft_res = c_ft_m.equal_range(150);
-        // cond = (cond && (*(ft_res.first) == *(res.first)) && (*(ft_res.second) == *(res.second)));
-        // EQUAL(cond);
+        cond = (cond && (*(ft_res.first) == *(res.first)) && (*(ft_res.second) == *(res.second)));
+        res = c_m.equal_range(65);
+        ft_res = c_ft_m.equal_range(65);
+        cond = (cond && (*(ft_res.first) == *(res.first)) && (*(ft_res.second) == *(res.second)));
+        res = c_m.equal_range(63);
+        ft_res = c_ft_m.equal_range(63);
+        cond = (cond && (*(ft_res.first) == *(res.first)) && (*(ft_res.second) == *(res.second)));
+        res = c_m.equal_range(120);
+        ft_res = c_ft_m.equal_range(120);
+        cond = (cond && (*(ft_res.first) == *(res.first)) && (*(ft_res.second) == *(res.second)));
+        res = c_m.equal_range(70);
+        ft_res = c_ft_m.equal_range(70);
+        cond = (cond && (*(ft_res.first) == *(res.first)) && (*(ft_res.second) == *(res.second)));
+        res = c_m.equal_range(150);
+        ft_res = c_ft_m.equal_range(150);
+        cond = (cond && (*(ft_res.first) == *(res.first)) && (*(ft_res.second) == *(res.second)));
+        EQUAL(cond);
     }
 }
 
@@ -2176,5 +2166,6 @@ int main()
     std::cout << YELLOW << "Testing Non-Member Swap  ; " << RESET << std::endl;
     TEST_CASE(testNonMemberSwap);
     std::cout << std::endl;
+    system("leaks set.out");
     return 0;
 }

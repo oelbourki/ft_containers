@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rbtVD1.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-bour <oel-bour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 18:22:02 by oel-bour          #+#    #+#             */
-/*   Updated: 2021/11/09 15:17:29 by oel-bour         ###   ########.fr       */
+/*   Updated: 2021/11/09 21:49:00 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ class RBT
         {
             this->p = _allocator.allocate(1);
             _allocator.construct(this->p,value_type(_p.first,_p.second));
-            this->parent = this->right = this->left = nullptr;
+            this->parent = this->right = this->left = NULL;
             this->black = false;
             this->isleftchild = false;
             this->doubleBlack = false;
@@ -95,7 +95,7 @@ class RBT
     public:
     RBT()
     {
-        this->root = nullptr;
+        this->root = NULL;
         this->_size = 0;
     };
     ~RBT()
@@ -109,7 +109,7 @@ class RBT
     node*    insert(value_type& m){
         node *new_node = _allocator_node.allocate(1);
         _allocator_node.construct(new_node,m);
-        if (root == nullptr)
+        if (root == NULL)
         {
             root = new_node;
             root->black = true;
@@ -209,7 +209,7 @@ class RBT
         else
         return 1;
     };
-    bool empty() const{return this->root == nullptr;};
+    bool empty() const{return this->root == NULL;};
     size_type size() const{return this->_size;};
     size_type max_size() const{return _allocator.max_size();}
     //----first-----comapare
@@ -634,16 +634,16 @@ void    RBT<value_type,Compare,Alloc>::rightRotate(node *new_node)
     // std::cout << "RightRotation" << std::endl;
     node *tmp = new_node->left;
     new_node->left = tmp->right;
-    if (new_node->left != nullptr)
+    if (new_node->left != NULL)
     {
         new_node->left->parent = new_node;
         new_node->left->isleftchild = true;
 
     }
-    if (new_node->parent == nullptr)
+    if (new_node->parent == NULL)
     {
         this->root = tmp;
-        tmp->parent = nullptr;
+        tmp->parent = NULL;
     }
     else 
     {
@@ -671,15 +671,15 @@ void    RBT<value_type,Compare,Alloc>::leftRotate(node *new_node)
     // std::cout << "LeftRotation" << std::endl;
     node *tmp = new_node->right;
     new_node->right = tmp->left;
-    if (new_node->right != nullptr)
+    if (new_node->right != NULL)
     {
         new_node->right->parent = new_node;
         new_node->right->isleftchild = false;
     }
-    if (new_node->parent == nullptr)
+    if (new_node->parent == NULL)
     {
         this->root = tmp;
-        tmp->parent = nullptr;
+        tmp->parent = NULL;
     }
     else 
     {
@@ -712,7 +712,7 @@ void RBT<value_type,Compare,Alloc>::rotate(node *new_node)
             rightRotate(new_node->parent->parent);
             new_node->black = false;
             new_node->parent->black = true;
-            if (new_node->parent->right != nullptr)
+            if (new_node->parent->right != NULL)
                 new_node->parent->right->black = false;
         }
         else 
@@ -731,7 +731,7 @@ void RBT<value_type,Compare,Alloc>::rotate(node *new_node)
             leftRotate(new_node->parent->parent);
             new_node->black = false;
             new_node->parent->black = true;
-            if (new_node->parent->left != nullptr)
+            if (new_node->parent->left != NULL)
                 new_node->parent->left->black = false;
         }
         else 
@@ -754,15 +754,15 @@ void RBT<value_type,Compare,Alloc>::correctTree(node *new_node)
 {
     if (new_node->parent->isleftchild)
     {
-        if (new_node->parent->parent != nullptr)
+        if (new_node->parent->parent != NULL)
         {
-            if (new_node->parent->parent->right == nullptr ||
+            if (new_node->parent->parent->right == NULL ||
             new_node->parent->parent->right->black)
                 rotate(new_node);
             else
             {
                 
-                if (new_node->parent->parent->right != nullptr)
+                if (new_node->parent->parent->right != NULL)
                     new_node->parent->parent->right->black = true;
                 new_node->parent->parent->black = false;
                 new_node->parent->black = true;
@@ -771,15 +771,15 @@ void RBT<value_type,Compare,Alloc>::correctTree(node *new_node)
 
     }else
     {
-        if (new_node->parent->parent != nullptr)
+        if (new_node->parent->parent != NULL)
         {
             // std::cout << "right" << std::endl;
-            if (new_node->parent->parent->left == nullptr ||
+            if (new_node->parent->parent->left == NULL ||
             new_node->parent->parent->left->black)
                 rotate(new_node);
             else 
             {
-                if (new_node->parent->parent->left != nullptr)
+                if (new_node->parent->parent->left != NULL)
                     new_node->parent->parent->left->black = true;
                 new_node->parent->parent->black = false;
                 new_node->parent->black = true;
@@ -813,7 +813,7 @@ typename RBT<value_type,Compare,Alloc>::node* RBT<value_type,Compare,Alloc>::ins
 {   
     if (_comp(parent->p->first , new_node->p->first))
     {
-        if (parent->right == nullptr)
+        if (parent->right == NULL)
         {
             parent->right = new_node;
             new_node->parent = parent;
@@ -825,7 +825,7 @@ typename RBT<value_type,Compare,Alloc>::node* RBT<value_type,Compare,Alloc>::ins
     }
     else if (_comp(new_node->p->first, parent->p->first ))
     {
-        if (parent->left == nullptr)
+        if (parent->left == NULL)
         {
             parent->left = new_node;
             new_node->parent = parent;

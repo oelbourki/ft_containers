@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stack.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-bour <oel-bour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 18:22:07 by oel-bour          #+#    #+#             */
-/*   Updated: 2021/11/06 14:08:02 by oel-bour         ###   ########.fr       */
+/*   Updated: 2021/11/09 21:52:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ namespace ft
     template <class T, class Container = ft::vector<T> >
     class stack
     {
-        private:
+        protected:
         Container c;
         public:
         typedef size_t size_type;

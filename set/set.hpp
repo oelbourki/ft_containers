@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 18:21:57 by oel-bour          #+#    #+#             */
-/*   Updated: 2021/11/09 20:48:33 by marvin           ###   ########.fr       */
+/*   Updated: 2021/11/09 21:17:34 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,13 +98,13 @@ namespace ft
         iterator find (const T& k){return r.find(k);}
         const_iterator find (const T& k) const{return r.find(k);}
         //things
-        pair<const_iterator,const_iterator> equal_range (const T& k) const{return r.equal_range(k);}
-        pair<iterator,iterator>             equal_range (const T& k){return r.equal_range(k);}
+        // pair<const_iterator,const_iterator> equal_range (const T& k) const{return r.equal_range(k);}
+        pair<iterator,iterator>             equal_range (const T& k)const{return r.equal_range(k);}
         key_compare key_comp() const{return this->cmp;}
-        iterator lower_bound (const T& k){return r.lower_bound(k);}
-        const_iterator lower_bound (const T& k) const{return r.lower_bound(k);}
-        iterator upper_bound (const T& k){return r.upper_bound(k);}
-        const_iterator upper_bound (const T& k) const{return r.upper_bound(k);}
+        iterator lower_bound (const T& k)const{return r.lower_bound(k);}
+        // const_iterator lower_bound (const T& k) const{return r.lower_bound(k);}
+        iterator upper_bound (const T& k)const{return r.upper_bound(k);}
+        // const_iterator upper_bound (const T& k) const{return r.upper_bound(k);}
         //others
         void clear()
         { 

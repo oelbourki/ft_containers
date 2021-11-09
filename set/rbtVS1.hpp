@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 18:22:02 by oel-bour          #+#    #+#             */
-/*   Updated: 2021/11/09 20:56:33 by marvin           ###   ########.fr       */
+/*   Updated: 2021/11/09 21:29:47 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ class RBT
     void    rightLeftRotate(node *new_node);
     void    leftRightRotate(node *new_node);
     typedef node T;
-    typedef ft::iterator_tree<node,value_type,RBT> iterator; 
+    typedef ft::iterator_tree<node,const value_type,RBT> iterator; 
     typedef ft::iterator_tree<node,const value_type,RBT> const_iterator;
     typedef ft::reverse_iterator_tree<iterator>
         reverse_iterator;
