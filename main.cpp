@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oel-bour <oel-bour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 19:39:16 by oel-bour          #+#    #+#             */
-/*   Updated: 2021/11/09 21:47:39 by marvin           ###   ########.fr       */
+/*   Updated: 2021/11/10 09:41:14 by oel-bour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,14 @@
 #include "vector/vector.hpp"
 #include "stack/stack.hpp"
 #include "map/map.hpp"
+#include "set/set.hpp"
 #include "utils/pair.hpp"
 #else
 #define NAMESPACE "STD : "
 #include <vector>
 #include <stack>
 #include <map>
+#include <set>
 namespace ft = std;
 #endif
 
@@ -47,15 +49,6 @@ void print_vector(ft::vector<int>::iterator ft_it_b, ft::vector<int>::iterator f
 	std::cout << std::endl;
 }
 
-// long	get_timestamp(void)
-// {
-// 	struct timeval	creation;
-// 	long			timestamp;
-
-// 	gettimeofday(&creation, NULL);
-// 	timestamp = (creation.tv_sec * 1000.0 + creation.tv_usec / 1000.0);
-// 	return (timestamp);
-// }
 
 int main(void)
 {
@@ -72,11 +65,8 @@ int main(void)
 	ft::vector<int>::const_iterator ft_itc(vect_1.end());
 
 	(void)ft_it_char;
-	// std_it = ft_itc;
 	ft_itc = ft_it;
 
-	// *ft_itc = 8;
-	// *std_itc = 8;
 
 	std::cout << (ft_itc == ft_it) << std::endl;
 	std::cout << (ft_itc != ft_it) << std::endl << std::endl;
@@ -151,7 +141,6 @@ int main(void)
 
 	ft::vector<int> ft_new1(10, 0);
 
-	// ft_new1.reserve(100);
 	for (int i = 0; i < 2; ++i)
 		ft_new1.push_back(i);
 	print_vector(ft_new1.begin(), ft_new1.end());
@@ -162,11 +151,6 @@ int main(void)
 	std::cout << std::endl;
 	// ft_new2.reserve(1);
 	ft::vector<int>::iterator ft_it2(ft_new2.begin());
-	
-	// ft_new2.push_back(50);
-	// ft_it2 = ft_new2.begin();
-	// ft_it2++;
-	// std::cout << *ft_it2 << std::endl;
 
 	ft_new2.insert(ft_it2, 900);
 	ft_it2++;
@@ -177,10 +161,8 @@ int main(void)
 	ft_new2.insert(ft_it2, 10);
 	ft_it2 = ft_new2.begin();
 	ft_new2.insert(ft_it2, 20);
-	// ft_it2--;
 	ft_it2 = ft_new2.end();
-	// std_it2++;
-	// ft_it2++;
+
 	std::cout << *(ft_new2.insert(ft_it2, 800))<< std::endl;
 	print_vector(ft_new2.begin(), ft_new2.end());
 	std::cout << "ft capacity : " << ft_new2.capacity() << std::endl;
@@ -188,7 +170,6 @@ int main(void)
 
 	print_vector(ft_new2.begin(), ft_new2.end());
 	ft_it2 = ft_new2.begin();
-	// ft_it2--;
 
 	ft_new2.insert(ft_it2, 1, 55);
 		print_vector(ft_new2.begin(), ft_new2.end());
@@ -380,7 +361,6 @@ std::cout << "	======================>\033[1;31m iteartors && rev_iterators arit
 
 	std::cout << *ft_crit3 << std::endl;
 
-	// *ft_crit3 = 8; // compilation error 
 
 	std::cout << std::endl;
 
@@ -498,7 +478,6 @@ std::cout << "	======================>\033[1;31m iteartors && rev_iterators arit
 	ft_iter = ft_map3.begin();
 	std::cout << ft_iter->first << std::endl;
 
-	// std::cout << ft_map.max_size() << std::endl;
 	
 	std::cout << (ft_map3.erase(1)) << std::endl;
 	std::cout << (ft_map3.erase(2)) << std::endl;
@@ -568,7 +547,6 @@ std::cout << "	======================>\033[1;31m iteartors && rev_iterators arit
 
  ft::map<char,int> mymap10;
 
-//   ft::map<char,int>::key_compare mycomp = mymap10.key_comp();
 
   mymap10['a']=100;
   mymap10['b']=200;
@@ -579,7 +557,6 @@ std::cout << "	======================>\033[1;31m iteartors && rev_iterators arit
 ft::map<char, int>::reverse_iterator rev_iter(mymap10.rbegin());
 (void)rev_iter;
   char highest = (--mymap10.end())->first;     // key value of last element
-	// (void)highest;
   ft::map<char,int>::iterator it = mymap10.begin();
   do {
     std::cout << it->first << " => " << it->second << '\n';
@@ -656,89 +633,6 @@ ft::map<char, int>::reverse_iterator rev_iter(mymap10.rbegin());
   mymap.get_allocator().deallocate(p,5);
 
 }
-
-{
-	ft::map<int, std::string> ft_map;
-	for(int i = 3; i < 10; ++i)
-		ft_map.insert(ft::make_pair<int, std::string>(i, "value"));
-	// ft::map<int, std::string>::iterator ft_iter(ft_map.begin());
-	// ft::map<int, std::string>::iterator ft_iter1(ft_map.end());
-	// ft_iter = ft_map.lower_bound(1);
-	// std::cout << ft_iter->first << std::endl;
-	// ft_iter = ft_map.lower_bound(7);
-	// std::cout << ft_iter->first << std::endl;
-	// ft_iter = ft_map.lower_bound(12);
-	// if (ft_iter == ft_map.end())
-	// 	std::cout << "True \n";
-	// ft_iter--;
-	// (void)ft_iter1;
-	// std::cout << ft_iter->first << std::endl;
-	// const ft::map<int, std::string> const_map(ft_map);
-	// std::cout << (ft_map.lower_bound(100))->first << std::endl;
-	// std::cout << (const_map.lower_bound(7))->first << std::endl;
-}
-
-// {
-// 	ft::map<int, std::string> ft_map;
-// 	for(int i = 3; i < 10; ++i)
-// 		ft_map.insert(ft::make_pair<int, std::string>(i, "value"));
-// 	ft::map<int, std::string>::iterator ft_iter(ft_map.begin());
-// 	ft::map<int, std::string>::iterator ft_iter1(ft_map.end());
-// 	ft_iter = ft_map.upper_bound(1);
-// 	std::cout << ft_iter->first << std::endl;
-// 	ft_iter = ft_map.upper_bound(7);
-// 	std::cout << ft_iter->first << std::endl;
-// 	ft_iter = ft_map.upper_bound(9);
-// 	if (ft_iter == ft_map.end())
-// 		std::cout << "True \n";
-// 	ft_iter--;
-// 	(void)ft_iter1;
-// 	std::cout << ft_iter->first << std::endl;
-// 	const ft::map<int, std::string> const_map(ft_map);
-// 	std::cout << (const_map.lower_bound(1))->first << std::endl;
-// 	std::cout << (const_map.lower_bound(7))->first << std::endl;
-// }
-
-// {
-//   ft::map<char,int> mymap;
-//   ft::map<char,int>::iterator itlow,itup;
-
-//   mymap['a']=20;
-//   mymap['b']=40;
-//   mymap['c']=60;
-//   mymap['d']=80;
-//   mymap['e']=100;
-
-//   itlow=mymap.lower_bound ('b');  // itlow points to b
-//   itup=mymap.upper_bound ('d');   // itup points to e (not d!)
-
-//   mymap.erase(itlow,itup);        // erases [itlow,itup)
-
-//   // print content:
-//   for (ft::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
-//     std::cout << it->first << " => " << it->second << '\n';
-
-// }
-
-// {
-//   ft::map<char,int> mymap;
-
-//   mymap['a']=10;
-//   mymap['b']=20;
-//   mymap['c']=30;
-
-//   ft::pair<ft::map<char,int>::iterator,ft::map<char,int>::iterator> ret;
-//   ret = mymap.equal_range('b');
-
-//   std::cout << "lower bound points to: ";
-//   std::cout << ret.first->first << " => " << ret.first->second << '\n';
-
-//   std::cout << "upper bound points to: ";
-//   std::cout << ret.second->first << " => " << ret.second->second << '\n';
-
-// }
-
-
 {
    ft::map<char,int> foo,bar;
   foo['a']=100;
@@ -849,7 +743,112 @@ ft::map<char, int>::reverse_iterator rev_iter(mymap10.rbegin());
 		std::cout << (ft_m.lower_bound(150)->first) << std::endl;
 
 	}
+	{
+		int myints[] = {75,23,65,42,13};
+		ft::set<int> myset (myints,myints+5);
 
+		std::cout << "myset contains:";
+		for (ft::set<int>::iterator it=myset.begin(); it!=myset.end(); ++it)
+			std::cout << ' ' << *it;
+
+		std::cout << '\n';
+
+	}
+	{
+		 ft::set<int> myset;
+
+		myset.insert (100);
+		myset.insert (200);
+		myset.insert (300);
+
+		std::cout << "myset contains:";
+		for (ft::set<int>::iterator it=myset.begin(); it!=myset.end(); ++it)
+			std::cout << ' ' << *it;
+		std::cout << '\n';
+
+		myset.clear();
+		myset.insert (1101);
+		myset.insert (2202);
+
+		std::cout << "myset contains:";
+		for (ft::set<int>::iterator it=myset.begin(); it!=myset.end(); ++it)
+			std::cout << ' ' << *it;
+		std::cout << '\n';
+	}
+	{
+		ft::set<int> myset;
+
+		// set some initial values:
+		for (int i=1; i<5; ++i) myset.insert(i*3);    // set: 3 6 9 12
+
+		for (int i=0; i<10; ++i)
+		{
+			std::cout << i;
+			if (myset.count(i)!=0)
+			std::cout << " is an element of myset.\n";
+			else
+			std::cout << " is not an element of myset.\n";
+		}
+
+	}
+	{
+		ft::set<int> myset;
+
+		myset.insert(20);
+		myset.insert(30);
+		myset.insert(10);
+
+		std::cout << "myset contains:";
+		while (!myset.empty())
+		{
+			std::cout << ' ' << *myset.begin();
+			myset.erase(myset.begin());
+		}
+		std::cout << '\n';
+	}
+	{
+		int myints[] = {75,23,65,42,13};
+		ft::set<int> myset (myints,myints+5);
+
+		std::cout << "myset contains:";
+		for (ft::set<int>::iterator it=myset.begin(); it!=myset.end(); ++it)
+			std::cout << ' ' << *it;
+
+		std::cout << '\n';
+	}
+	{
+		ft::set<int> myset;
+
+		for (int i=1; i<=5; i++) myset.insert(i*10);   // myset: 10 20 30 40 50
+
+		ft::pair<ft::set<int>::const_iterator,ft::set<int>::const_iterator> ret;
+		ret = myset.equal_range(30);
+
+		std::cout << "the lower bound points to: " << *ret.first << '\n';
+		std::cout << "the upper bound points to: " << *ret.second << '\n';
+	}
+	{
+		 ft::set<int> myset;
+		ft::set<int>::iterator it;
+
+		// insert some values:
+		for (int i=1; i<10; i++) myset.insert(i*10);  // 10 20 30 40 50 60 70 80 90
+
+		it = myset.begin();
+		++it;                                         // "it" points now to 20
+
+		myset.erase (it);
+
+		myset.erase (40);
+
+		it = myset.find (60);
+		myset.erase (it, myset.end());
+
+		std::cout << "myset contains:";
+		for (it=myset.begin(); it!=myset.end(); ++it)
+			std::cout << ' ' << *it;
+		std::cout << '\n';
+	}
 	std::cout.precision(10);
 	std::cout << NAMESPACE << std::fixed <<  float(clock() - start)/CLOCKS_PER_SEC  << std::endl;
 	// system("leaks a.out");

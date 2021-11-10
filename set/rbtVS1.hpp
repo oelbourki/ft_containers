@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rbtVS1.hpp                                         :+:      :+:    :+:   */
+/*   RBTsetVS1.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oel-bour <oel-bour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 18:22:02 by oel-bour          #+#    #+#             */
-/*   Updated: 2021/11/09 21:29:47 by marvin           ###   ########.fr       */
+/*   Updated: 2021/11/10 09:20:42 by oel-bour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ template < class value_type,                                    // map::value_ty
             class Compare = std::less<value_type>,                     // map::key_compare
             class Alloc = std::allocator<value_type >  // map::allocator_type
            >
-class RBT
+class RBTset
 {
     typedef Compare key_compare;
     typedef Alloc allocator_type;
@@ -85,17 +85,17 @@ class RBT
     bool 			operator<(const node &v){return this->p < v.p;}
     bool 			operator<=(const node &v){return this->p <= v.p;}
     };
-    typedef typename Alloc::template rebind<RBT::node>::other        node_all;
+    typedef typename Alloc::template rebind<RBTset::node>::other        node_all;
     node_all _allocator_node;
     node *root;
     size_t _size;
     public:
-    RBT()
+    RBTset()
     {
         this->root = nullptr;
         this->_size = 0;
     };
-    ~RBT()
+    ~RBTset()
     {
     }
     node *get_root() const
@@ -126,8 +126,8 @@ class RBT
     void    rightLeftRotate(node *new_node);
     void    leftRightRotate(node *new_node);
     typedef node T;
-    typedef ft::iterator_tree<node,const value_type,RBT> iterator; 
-    typedef ft::iterator_tree<node,const value_type,RBT> const_iterator;
+    typedef ft::iterator_tree_set<node,const value_type,RBTset> iterator; 
+    typedef ft::iterator_tree_set<node,const value_type,RBTset> const_iterator;
     typedef ft::reverse_iterator_tree<iterator>
         reverse_iterator;
     typedef ft::reverse_iterator_tree<const_iterator>
@@ -239,7 +239,7 @@ class RBT
         return *root->p->second;
     }
     //---------
-    void swap( RBT& other ){
+    void swap( RBTset& other ){
         this->swap(this->root,other.root);
         this->swap(this->_size,other._size);
     }
@@ -581,23 +581,23 @@ class RBT
             }
         }
     }
-    bool operator==(RBT<value_type ,Compare,Alloc>& rhs ){
+    bool operator==(RBTset<value_type ,Compare,Alloc>& rhs ){
                         return ft::equal(begin(),end(),rhs.begin());
                     }
-    bool operator!=(RBT<value_type ,Compare,Alloc>& rhs ){
+    bool operator!=(RBTset<value_type ,Compare,Alloc>& rhs ){
                         return !ft::equal(begin(),end(),rhs.begin());
 
                     }
-    bool operator<( RBT<value_type ,Compare,Alloc>& rhs ){
+    bool operator<( RBTset<value_type ,Compare,Alloc>& rhs ){
                         return ft::lexicographical_compare(begin(),end(),rhs.begin(),rhs.end());                        
                     }
-    bool operator<=(RBT<value_type ,Compare,Alloc>& rhs ){
+    bool operator<=(RBTset<value_type ,Compare,Alloc>& rhs ){
                         return (*this < rhs) || (*this == rhs); 
                     }
-    bool operator>( RBT<value_type ,Compare,Alloc>& rhs ){
+    bool operator>( RBTset<value_type ,Compare,Alloc>& rhs ){
                         return !(*this < rhs) && (*this != rhs);
                     }
-    bool operator>=(RBT<value_type ,Compare,Alloc>& rhs ){
+    bool operator>=(RBTset<value_type ,Compare,Alloc>& rhs ){
                         return !(*this < rhs) || (*this == rhs);
                     } 
 };
@@ -606,7 +606,7 @@ template < class value_type ,                                    // map::value_t
         class Compare,                     // map::key_compare
         class Alloc    // map::allocator_type
         >
-void    RBT<value_type,Compare,Alloc>::rightLeftRotate(node *new_node)
+void    RBTset<value_type,Compare,Alloc>::rightLeftRotate(node *new_node)
 {
     rightRotate(new_node->right);
     leftRotate(new_node);
@@ -616,7 +616,7 @@ template < class value_type ,                                    // map::value_t
         class Compare,                     // map::key_compare
         class Alloc    // map::allocator_type
         >
-void    RBT<value_type,Compare,Alloc>::leftRightRotate(node *new_node)
+void    RBTset<value_type,Compare,Alloc>::leftRightRotate(node *new_node)
 {
     leftRotate(new_node->left);
     rightRotate(new_node);
@@ -626,7 +626,7 @@ template < class value_type ,                                    // map::value_t
         class Compare,                     // map::key_compare
         class Alloc    // map::allocator_type
         >
-void    RBT<value_type,Compare,Alloc>::rightRotate(node *new_node)
+void    RBTset<value_type,Compare,Alloc>::rightRotate(node *new_node)
 {
     // std::cout << "RightRotation" << std::endl;
     node *tmp = new_node->left;
@@ -663,7 +663,7 @@ template < class value_type ,                                    // map::value_t
         class Compare,                     // map::key_compare
         class Alloc    // map::allocator_type
         >
-void    RBT<value_type,Compare,Alloc>::leftRotate(node *new_node)
+void    RBTset<value_type,Compare,Alloc>::leftRotate(node *new_node)
 {
     // std::cout << "LeftRotation" << std::endl;
     node *tmp = new_node->right;
@@ -700,7 +700,7 @@ template < class value_type ,                                    // map::value_t
         class Compare,                     // map::key_compare
         class Alloc    // map::allocator_type
         >
-void RBT<value_type,Compare,Alloc>::rotate(node *new_node)
+void RBTset<value_type,Compare,Alloc>::rotate(node *new_node)
 {
     if (new_node->isleftchild)
     {
@@ -747,7 +747,7 @@ template < class value_type ,                                    // map::value_t
         class Compare,                     // map::key_compare
         class Alloc    // map::allocator_type
         >
-void RBT<value_type,Compare,Alloc>::correctTree(node *new_node)
+void RBTset<value_type,Compare,Alloc>::correctTree(node *new_node)
 {
     if (new_node->parent->isleftchild)
     {
@@ -790,7 +790,7 @@ template < class value_type ,                                    // map::value_t
         class Compare,                     // map::key_compare
         class Alloc    // map::allocator_type
         >
-void RBT<value_type,Compare,Alloc>::checkcolor(node *new_node)
+void RBTset<value_type,Compare,Alloc>::checkcolor(node *new_node)
 {
     if (!new_node || (new_node == this->root))
         return ;
@@ -806,7 +806,7 @@ template < class value_type ,                                    // map::value_t
         class Compare,                     // map::key_compare
         class Alloc    // map::allocator_type
         >
-typename RBT<value_type,Compare,Alloc>::node* RBT<value_type,Compare,Alloc>::insert(node *parent,node *new_node)
+typename RBTset<value_type,Compare,Alloc>::node* RBTset<value_type,Compare,Alloc>::insert(node *parent,node *new_node)
 {   
     if (_comp(*parent->p , *new_node->p))
     {

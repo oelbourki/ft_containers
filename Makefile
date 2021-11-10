@@ -3,20 +3,18 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
+#    By: oel-bour <oel-bour@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/05 18:20:37 by oel-bour          #+#    #+#              #
-#    Updated: 2021/11/09 21:49:23 by marvin           ###   ########.fr        #
+#    Updated: 2021/11/10 09:41:47 by oel-bour         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-COMPILER = g++
-# COMPILER = clang++
+COMPILER = clang++
 
-FLAGS =
-# FLAGS = --std=c++98 -Wall -Wextra -Werror
+FLAGS = --std=c++98 -Wall -Wextra -Werror
 
-NAME = std.out ft.out vector.out map.out stack.out 
+NAME = std.out ft.out vector.out map.out stack.out set.out
 all: $(NAME)
 $(NAME):
 	@$(COMPILER) $(FLAGS) -D NS=0 main.cpp -o std.out && ./std.out > std.txt
@@ -26,5 +24,5 @@ $(NAME):
 	@$(COMPILER) $(FLAGS)	Set_tests.cpp -o set.out 
 	@$(COMPILER) $(FLAGS)	Stack_tests.cpp -o stack.out  
 clean:
-	@rm -f vector.out map.out stack.out std.out ft.out std.txt ft.txt
+	@rm -f $(NAME)
 re: clean all
