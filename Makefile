@@ -6,7 +6,7 @@
 #    By: oel-bour <oel-bour@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/05 18:20:37 by oel-bour          #+#    #+#              #
-#    Updated: 2021/11/10 09:41:47 by oel-bour         ###   ########.fr        #
+#    Updated: 2021/11/10 09:42:50 by oel-bour         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,4 +25,6 @@ $(NAME):
 	@$(COMPILER) $(FLAGS)	Stack_tests.cpp -o stack.out  
 clean:
 	@rm -f $(NAME)
+fclean: clean
+	@rm -f ft.txt std.txt
 re: clean all
