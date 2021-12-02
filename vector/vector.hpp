@@ -6,7 +6,7 @@
 /*   By: oel-bour <oel-bour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 18:07:45 by oel-bour          #+#    #+#             */
-/*   Updated: 2021/11/08 15:40:18 by oel-bour         ###   ########.fr       */
+/*   Updated: 2021/11/14 10:58:11 by oel-bour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -617,8 +617,11 @@ void vector<T,Alloc>::swap (vector& x)
 template < class T, class Alloc >
 	typename vector<T,Alloc>::iterator vector<T,Alloc>::erase (iterator position)
 	{
-		size_t pos = this->diff(this->begin(),position);
-		for(size_t i = pos; i < (this->_size - 1);i++)//size_t - 1
+		int pos = position - this->begin();//destroy
+		if (pos >= int(this->_size))
+			return position;
+		this->_allocator.destroy(this->_arr + pos);
+		for(int i = pos; i < (int(this->_size) - 1);i++)//size_t - 1
 					this->_allocator.construct(this->_arr + i,this->_arr[i + 1]);
 		this->_index--;
 		this->_size--;
@@ -627,8 +630,20 @@ template < class T, class Alloc >
 template < class T, class Alloc >
 	typename vector<T,Alloc>::iterator vector<T,Alloc>::erase (iterator first, iterator last)
 	{
-		size_t pos = this->diff(this->begin(),first);
-		size_t size = this->diff(first,last);
+		int pos = first - begin();
+		int size = last - first;
+		if (pos < 0 || size < 0 || size > int(this->_size) || last > this->end()){
+			return  iterator(this->_arr);
+		}
+		for (int i = pos; i < size + pos && i + size < int(this->_size); i++)
+		{
+			this->_allocator.destroy(this->_arr + i);
+			this->_allocator.construct(this->_arr + i,this->_arr[i + size]);
+		}
+		for (int i = pos + size - 1; i < int(this->_size) && i + size < int(this->_size); i++)
+		{
+			this->_allocator.construct(this->_arr + i,this->_arr[i + size]);
+		}
 		this->_index -= size;
 		this->_size -= size;
 		return iterator(this->_arr + pos);

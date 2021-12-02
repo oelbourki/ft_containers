@@ -6,7 +6,7 @@
 /*   By: oel-bour <oel-bour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 19:39:16 by oel-bour          #+#    #+#             */
-/*   Updated: 2021/11/10 09:41:14 by oel-bour         ###   ########.fr       */
+/*   Updated: 2021/11/13 11:19:29 by oel-bour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,10 @@ void print_vector(ft::vector<int>::iterator ft_it_b, ft::vector<int>::iterator f
 
 int main(void)
 {
+	
+
+	ft::vector<int>v1(100, 42);
+	
 	
 	clock_t start = clock();
     	std::cout << "	======================>\033[1;31m init and iterators tests \033[0m<============================ " << std::endl;
@@ -851,5 +855,4 @@ ft::map<char, int>::reverse_iterator rev_iter(mymap10.rbegin());
 	}
 	std::cout.precision(10);
 	std::cout << NAMESPACE << std::fixed <<  float(clock() - start)/CLOCKS_PER_SEC  << std::endl;
-	// system("leaks a.out");
 }
